@@ -33,12 +33,16 @@ class BarSeries extends Component {
 
 	}
 	renderSVG(moreProps) {
+		const gAttr = {
+			className: this.props.className
+		};
+
 		if (this.props.swapScales) {
 			const { xAccessor } = moreProps;
-			return <g>{svgHelper(this.props, moreProps, xAccessor, identityStack)}</g>;
+			return <g {...gAttr}>{svgHelper(this.props, moreProps, xAccessor, identityStack)}</g>;
 		} else {
 			const bars = getBars(this.props, moreProps);
-			return <g>{getBarsSVG2(this.props, bars)}</g>;
+			return <g {...gAttr}>{getBarsSVG2(this.props, bars)}</g>;
 		}
 
 	}
