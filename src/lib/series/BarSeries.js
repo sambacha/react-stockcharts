@@ -133,11 +133,11 @@ function getBars(props, moreProps) {
                 h = -h;
             }
 
-            if (minHeight) {
+            if (minHeight && yValue > 0) {
                 const height = Math.round(h);
 
-                if (height == 0 && yValue > 0) {
-                    h = 1;
+                if (height < minHeight) {
+                    h = minHeight;
                 }
             }
 
