@@ -168,11 +168,11 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
   return (
     <g>
       <rect width="100%" height="23px" fill="black"
-      //  transform={`translate(${x}, ${y})`}
+      transform={`translate(${x}, ${-23})`}
       ></rect>
       <g
         className={`react-stockcharts-tooltip-hover ${className}`}
-        transform={`translate(${60}, ${8})`}
+        transform={`translate(${x + 60}, ${-14})`}
         onClick={onClick}
         fill="white"
       >
