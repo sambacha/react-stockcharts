@@ -133,7 +133,7 @@ OHLCTooltip.defaultProps = {
   percentFormat: format(".2%"),
   ohlcFormat: format(".2f"),
   displayValuesFor: displayValuesFor,
-  origin: [0, 0],
+  origin: [0, 20],
   children: defaultDisplay,
   displayTexts: displayTextsDefault,
 };
@@ -149,7 +149,7 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
     fontSize,
     displayTexts,
     visible,
-    serverTime
+    serverTime = "1234567890"
   } = props;
   /* eslint-enable */
 
@@ -167,11 +167,12 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
   // if (!visible) return null
   return (
     <g>
-      <rect width="100%" height="23px" fill="black" transform={`translate(${x}, ${y})`}
+      <rect width="100%" height="23px" fill="black"
+      //  transform={`translate(${x}, ${y})`}
       ></rect>
       <g
         className={`react-stockcharts-tooltip-hover ${className}`}
-        transform={`translate(${x + 60}, ${y + 8})`}
+        transform={`translate(${60}, ${8})`}
         onClick={onClick}
         fill="white"
       >
