@@ -105,7 +105,7 @@ class Shape extends React.Component {
             }
         } else {
             const newLabels = [
-                ...shapes.map((d) => ({ ...d, selected: false })),
+                ...shapes.map((d) => ({ ...d })),
             ];
             this.props.onDragComplete(newLabels, moreProps);
         }
