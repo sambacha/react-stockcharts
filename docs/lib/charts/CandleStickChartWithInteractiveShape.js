@@ -119,14 +119,11 @@ class CandlestickChart extends React.Component {
     }
     handleSelection(interactives, moreProps, e) {
         console.log(interactives, "interactives");
-        // console.log(interactives)
-        // const state = toObject(interactives, each => {
-        //     return [
-        //         'shapes',
-        //         each.objects,
-        //     ];
-        // });
-        // this.setState(state);
+
+        const state = toObject(interactives, (each) => {
+            return ['shapes', each.objects];
+        });
+        this.setState(state);
     }
     onDrawComplete(textList, moreProps) {
         const { id: chartId } = moreProps.chartConfig;
@@ -371,7 +368,7 @@ class CandlestickChart extends React.Component {
                 </Chart>
                 <CrossHairCursor />
                 <DrawingObjectSelector
-                    enabled={this.state.enableInteractiveObject}
+                    enabled={!this.state.enableInteractiveObject}
                     getInteractiveNodes={this.getInteractiveNodes}
                     drawingObjectMap={{
                         Shape: "shapes",
