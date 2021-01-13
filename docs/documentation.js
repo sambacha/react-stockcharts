@@ -116,6 +116,7 @@ const INTERACTIVE = {
 		require("./lib/page/LabelArrowsPage").default,
 		require("./lib/page/LinePrecentPage").default,
 		require("./lib/page/ShapePage").default,
+		require("./lib/page/HorizontalLinePage").default,
 	]
 };
 
