@@ -218,7 +218,7 @@ EachHorizontalLine.propTypes = {
 	index: PropTypes.number,
 
 	type: PropTypes.oneOf([
-		"LINE"
+		"horizontal"
 	]).isRequired,
 
 	onDrag: PropTypes.func.isRequired,
