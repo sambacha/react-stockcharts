@@ -63,7 +63,7 @@ class CandlestickChart extends React.Component {
 		this.state = {
 			enableTrendLine: false,
 			trends_1: [
-				{ start: [1606, 56], end: [1711, 56], appearance: { stroke: "green" }, type: "LINE" }
+				{ start: [1606, 56], end: [1711, 56], appearance: { stroke: "green" }, type: "horizontal" }
 			],
 			trends_3: []
 		};
@@ -238,7 +238,7 @@ class CandlestickChart extends React.Component {
 					<HorizontalLine
 						ref={this.saveInteractiveNodes("HorizontalLine", 1)}
 						enabled={this.state.enableTrendLine}
-						type="LINE"
+						type="horizontal"
 						snap={false}
 						snapTo={d => [d.high, d.low]}
 						onStart={() => console.log("START")}
@@ -277,7 +277,7 @@ class CandlestickChart extends React.Component {
 					<HorizontalLine
 						ref={this.saveInteractiveNodes("HorizontalLine", 3)}
 						enabled={this.state.enableTrendLine}
-						type="LINE"
+						type="horizontal"
 						snap={false}
 						snapTo={d => [d.high, d.low]}
 						onStart={() => console.log("START")}

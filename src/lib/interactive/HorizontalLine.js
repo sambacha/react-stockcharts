@@ -206,7 +206,7 @@ HorizontalLine.propTypes = {
 	currentPositionstrokeOpacity: PropTypes.number,
 	currentPositionRadius: PropTypes.number,
 	type: PropTypes.oneOf([
-		'LINE'
+		'horizontal'
 	]),
 	hoverText: PropTypes.object.isRequired,
 
@@ -214,7 +214,7 @@ HorizontalLine.propTypes = {
 };
 
 HorizontalLine.defaultProps = {
-    type: 'LINE',
+    type: 'horizontal',
     
 	onComplete: noop,
 	// onStart: noop,
