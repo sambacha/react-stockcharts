@@ -153,8 +153,7 @@ class EachHorizontalLine extends Component {
 			...restHoverTextProps
 		} = hoverText;
 
-        const { hover, anchor, width} = this.state;
-
+		const { hover, anchor, width} = this.state;
 		return <g>
 			<StraightLine
 				ref={this.saveNodeType("line")}
