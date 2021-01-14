@@ -20,10 +20,7 @@ import HoverTextNearMouse from "./components/HoverTextNearMouse";
 class HorizontalLine extends Component {
 	constructor(props) {
 		super(props);
-
-		// this.handleStart = this.handleStart.bind(this);
 		this.handleEnd = this.handleEnd.bind(this);
-		// this.handleDrawLine = this.handleDrawLine.bind(this);
 		this.handleDragLine = this.handleDragLine.bind(this);
 		this.handleDragLineComplete = this.handleDragLineComplete.bind(this);
 
@@ -33,13 +30,13 @@ class HorizontalLine extends Component {
 		this.getSelectionState = isHoverForInteractiveType("trends")
 			.bind(this);
 
-		this.state = {
-		};
+		this.state = {};
 		this.nodes = [];
 	}
-	handleDragLine(index, newXYValue) {
+	handleDragLine(index, newXYValue, otherProps) {
 		this.setState({
 			override: {
+				...otherProps,
 				index,
 				...newXYValue
 			}
@@ -98,18 +95,13 @@ class HorizontalLine extends Component {
 	// 	}
 	// }
 	handleEnd(xyValue, moreProps, e) {
-		const { current } = this.state;
 		const { trends, appearance, type } = this.props;
 
-		if (this.mouseMoved
-			&& isDefined(current)
-			&& isDefined(current.start)
-		) {
 			const newTrends = [
 				...trends.map(d => ({ ...d, selected: false })),
 				{
-					start: current.start,
-					end: xyValue,
+					start: [xyValue[0], xyValue[1]],
+					end: [xyValue[0] + 1, xyValue[1]],
 					selected: true,
 					appearance,
 					type,
@@ -121,8 +113,8 @@ class HorizontalLine extends Component {
 			}, () => {
 				this.props.onComplete(newTrends, moreProps, e);
 			});
-		}
 	}
+
 	render() {
 		const { appearance } = this.props;
 		const { enabled, snap, shouldDisableSnap, snapTo, type } = this.props;
@@ -130,20 +122,20 @@ class HorizontalLine extends Component {
 		const { currentPositionstrokeOpacity, currentPositionStrokeWidth } = this.props;
 		const { hoverText, trends } = this.props;
 		const { current, override } = this.state;
-
 		const tempLine = isDefined(current) && isDefined(current.end)
             ? <StraightLine 
                 type={type}
 				noHover
 				x1Value={current.start[0]}
 				y1Value={current.start[1]}
-				x2Value={current.end[0]}
-				y2Value={current.end[1]}
+				x2Value={current.end !== null ? current.end[0] : 0}
+				y2Value={current.end !== null ? current.end[1] : 0}
 				stroke={appearance.stroke}
 				strokeWidth={appearance.strokeWidth}
-				strokeOpacity={appearance.strokeOpacity} />
+				strokeOpacity={appearance.strokeOpacity}
+				current={current}
+			 />
 			: null;
-
 		return <g>
 			{trends.map((each, idx) => {
 				const eachAppearance = isDefined(each.appearance)
@@ -154,7 +146,6 @@ class HorizontalLine extends Component {
 					...HorizontalLine.defaultProps.hoverText,
 					...hoverText
 				};
-
                 return <EachHorizontalLine 
                     key={idx}
 					ref={this.saveNodeType(idx)}
@@ -220,16 +211,6 @@ HorizontalLine.propTypes = {
 	hoverText: PropTypes.object.isRequired,
 
 	trends: PropTypes.array.isRequired,
-
-	appearance: PropTypes.shape({
-		stroke: PropTypes.string.isRequired,
-		strokeOpacity: PropTypes.number.isRequired,
-		strokeWidth: PropTypes.number.isRequired,
-		strokeDasharray: PropTypes.oneOf(strokeDashTypes),
-		edgeStrokeWidth: PropTypes.number.isRequired,
-		edgeFill: PropTypes.string.isRequired,
-		edgeStroke: PropTypes.string.isRequired,
-	}).isRequired
 };
 
 HorizontalLine.defaultProps = {
