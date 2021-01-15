@@ -16,6 +16,7 @@ export { default as shallowEqual } from "./shallowEqual";
 export { default as mappedSlidingWindow } from "./mappedSlidingWindow";
 export { default as accumulatingWindow } from "./accumulatingWindow";
 export { default as PureComponent } from "./PureComponent";
+export { default as uniqueId } from "./uniqueId";
 
 export * from "./barWidth";
 export * from "./strokeDasharray";
