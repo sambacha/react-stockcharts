@@ -44,6 +44,16 @@ class InteractiveText extends Component {
 	}
 	handleDragComplete(moreProps) {
 		const { override } = this.state;
+		const newOverride = override && override.position || null;
+
+		this.state = {
+			...this.state,
+			currentText: {
+				...this.state.currentText,
+				position: newOverride
+			}
+		}
+
 		if (isDefined(override)) {
 			const { textList } = this.props;
 			const newTextList = textList
@@ -60,11 +70,17 @@ class InteractiveText extends Component {
 							selected
 						};
 				});
+				
 			this.setState({
-				override: null,
+				currentText: this.state.currentText
 			}, () => {
 				this.props.onDragComplete(newTextList, moreProps);
 			});
+
+			this.state = {
+				...this.state,
+				override: null
+			}
 		}
 	}
 	handleDrawLine(xyValue) {
