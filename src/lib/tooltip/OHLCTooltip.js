@@ -204,7 +204,7 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
             {displayTexts.l}
           </ToolTipTSpanLabel>
           <tspan key="value_L" fill="white">{low}</tspan>
-          <tspan key="value_L_divider" fill="#567E9C" dx="12px" x="464px">|</tspan>
+          <tspan key="value_L_divider" fill="#567E9C" x="464px">|</tspan>
 
           <ToolTipTSpanLabel fill="white" key="label_C" dx="34px">
             {displayTexts.c}
