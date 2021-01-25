@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { scaleLinear } from "d3-scale";
+import { flatten } from "lodash";
 
 import PureComponent from "./utils/PureComponent";
 import {
@@ -9,6 +10,7 @@ import {
 	noop,
 	find,
 } from "./utils";
+import { helper } from "./interactive/components/shapes";
 
 class Chart extends PureComponent {
 	constructor(props, context) {
@@ -34,9 +36,9 @@ class Chart extends PureComponent {
 		const { id, onContextMenu } = this.props;
 
 		if (type === "contextmenu") {
-			const { currentCharts } = moreProps;
+			const { currentCharts, mouseXY } = moreProps;
 			if (currentCharts.indexOf(id) > -1) {
-				onContextMenu(moreProps, e);
+				onContextMenu(mouseXY);
 			}
 		}
 	}

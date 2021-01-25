@@ -178,8 +178,8 @@ class CandlestickChart extends React.Component {
             }
         }
     }
-    handleContextMenu(isHoverShape) {
-        console.log(isHoverShape, "isHoverShape");
+    handleContextMenu(mouseXY) {
+        console.log(mouseXY);
     }
 
     render() {
@@ -248,6 +248,8 @@ class CandlestickChart extends React.Component {
                         ema12.accessor(),
                     ]}
                     padding={{ top: 10, bottom: 20 }}
+                    interactives={{annotations: this.state.shapes}}
+                    onContextMenu={this.handleContextMenu}
                 >
                     <XAxis
                         axisAt="bottom"
@@ -316,7 +318,6 @@ class CandlestickChart extends React.Component {
                         shapes={this.state.shapes}
                         onDragComplete={this.onDrawComplete}
                         onChoosePosition={this.handleCreateShape}
-                        handleContextMenu={this.handleContextMenu}
                     />
                 </Chart>
                 <Chart
