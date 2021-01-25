@@ -1,10 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { isDefined, isNotDefined, noop, strokeDashTypes } from "../utils";
+import { isDefined, noop } from "../utils";
 import {
     getValueFromOverride,
-    terminate,
     saveNodeType,
     isHoverForInteractiveType,
 } from "./utils";
@@ -12,13 +11,15 @@ import GenericChartComponent from "../GenericChartComponent";
 import { getMouseCanvas } from "../GenericComponent";
 import HoverTextNearMouse from "./components/HoverTextNearMouse";
 
-import SvgPathAnnotations from "./components/SvgPathAnnotations";
 import EachShape from "./wrapper/EachShape";
+import { helper } from "./components/shapes";
 
 class Shape extends React.Component {
     constructor() {
         super();
         this.handleDraw = this.handleDraw.bind(this);
+        this.handleContextMenu = this.handleContextMenu.bind(this);
+        this.isHover = this.isHover.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
         this.handleDragComplete = this.handleDragComplete.bind(this);
         this.saveNodeType = saveNodeType.bind(this);
@@ -80,8 +81,6 @@ class Shape extends React.Component {
 
         const xylValue = []
 
-
-
         if (enabled) {
             const { defaultShape, onChoosePosition, figure } = this.props;
 
@@ -104,12 +103,43 @@ class Shape extends React.Component {
                 onChoosePosition(newShape, moreProps, e);
             }
         } else {
-            const newLabels = [
-                ...shapes.map((d) => ({ ...d })),
-            ];
+            const newLabels = [...shapes.map((d) => ({ ...d }))];
             this.props.onDragComplete(newLabels, moreProps);
         }
     }
+
+    handleContextMenu(moreProps, e) {
+        const isHoverShape = this.isHover(moreProps, e);
+
+        const { handleContextMenu } = this.props;
+        handleContextMenu(isHoverShape);
+    }
+
+    isHover(moreProps) {
+        const { mouseXY } = moreProps;
+        const x = mouseXY[0];
+        const y = mouseXY[1];
+
+        const { shapes } = this.props;
+
+        return (
+            shapes.find((shape) => {
+                const { rect } = helper(shape, moreProps);
+
+                const {
+                    mouseXY: [mouseX, mouseY],
+                } = moreProps;
+
+                return (
+                    x >= rect.x - rect.width / 2 &&
+                    y >= rect.y - rect.height / 2 &&
+                    x <= rect.x + rect.width / 2 &&
+                    y <= rect.y + rect.height / 2
+                );
+            }) || null
+        );
+    }
+
     render() {
         const { hoverText, shapes } = this.props;
         const { override } = this.state;
@@ -193,6 +223,7 @@ class Shape extends React.Component {
                 ))}
                 <GenericChartComponent
                     onClick={this.handleDraw}
+                    onContextMenu={this.handleContextMenu}
                     svgDraw={noop}
                     canvasDraw={noop}
                     canvasToDraw={getMouseCanvas}
