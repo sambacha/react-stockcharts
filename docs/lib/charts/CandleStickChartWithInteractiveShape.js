@@ -178,6 +178,10 @@ class CandlestickChart extends React.Component {
             }
         }
     }
+    handleContextMenu(isHoverShape) {
+        console.log(isHoverShape, "isHoverShape");
+    }
+
     render() {
         const ema26 = ema()
             .id(0)
@@ -312,6 +316,7 @@ class CandlestickChart extends React.Component {
                         shapes={this.state.shapes}
                         onDragComplete={this.onDrawComplete}
                         onChoosePosition={this.handleCreateShape}
+                        handleContextMenu={this.handleContextMenu}
                     />
                 </Chart>
                 <Chart
