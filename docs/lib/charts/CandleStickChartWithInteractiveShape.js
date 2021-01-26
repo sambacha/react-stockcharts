@@ -35,6 +35,7 @@ import {
 import { last, toObject } from "react-stockcharts/lib/utils";
 
 import { saveInteractiveNodes, getInteractiveNodes } from "./interactiveutils";
+import { helper } from "react-stockcharts/lib/interactive/components/shapes";
 
 const macdAppearance = {
     stroke: {
@@ -58,6 +59,9 @@ class CandlestickChart extends React.Component {
         this.getInteractiveNodes = getInteractiveNodes.bind(this);
 
         this.saveCanvasNode = this.saveCanvasNode.bind(this);
+        this.isHover = this.isHover.bind(this);
+        this.handleContextMenu = this.handleContextMenu.bind(this);
+        this.helper = this.helper.bind(this);
 
         this.state = {
             enableInteractiveObject: true,
@@ -178,8 +182,58 @@ class CandlestickChart extends React.Component {
             }
         }
     }
-    handleContextMenu(mouseXY) {
-        console.log(mouseXY);
+    handleContextMenu(moreProps, e, interactives, state) {
+        const isHoverShape = this.isHover(moreProps, interactives, state);
+        console.log(isHoverShape);
+    }
+    isHover(moreProps, interactives, state) {
+        const { mouseXY } = moreProps;
+        const x = mouseXY[0];
+        const y = mouseXY[1];
+
+        const { annotations } = interactives;
+
+        return (
+            annotations.find((item) => {
+                const { rect } = this.helper(item, state, moreProps);
+                const {
+                    mouseXY: [mouseX, mouseY],
+                } = moreProps;
+                return (
+                    x >= rect.x - rect.width / 2 &&
+                    y >= rect.y - rect.height / 2 &&
+                    x <= rect.x + rect.width / 2 &&
+                    y <= rect.y + rect.height / 2
+                );
+            }) || null
+        );
+    }
+
+    helper(item, state, moreProps) {
+        const { position, width, height } = item;
+        const { xScale } = state;
+        const currentChart = moreProps.currentCharts[0];
+        const chartConfig = state.chartConfig.find(
+            (chart) => chart.id === currentChart
+        );
+        const yScale = chartConfig.yScale;
+
+        const [xValue, yValue] = position;
+        const x = xScale(xValue);
+        const y = yScale(yValue);
+
+        const rect = {
+            x,
+            y,
+            width,
+            height,
+        };
+
+        return {
+            x,
+            y,
+            rect,
+        };
     }
 
     render() {
@@ -248,7 +302,7 @@ class CandlestickChart extends React.Component {
                         ema12.accessor(),
                     ]}
                     padding={{ top: 10, bottom: 20 }}
-                    interactives={{annotations: this.state.shapes}}
+                    interactives={{ annotations: this.state.shapes }}
                     onContextMenu={this.handleContextMenu}
                 >
                     <XAxis
