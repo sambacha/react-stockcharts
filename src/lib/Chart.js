@@ -34,9 +34,11 @@ class Chart extends PureComponent {
 		const { id, onContextMenu } = this.props;
 
 		if (type === "contextmenu") {
-			const { currentCharts, mouseXY } = moreProps;
+			const { currentCharts } = moreProps;
 			if (currentCharts.indexOf(id) > -1) {
-				onContextMenu(moreProps, e, mouseXY);
+
+				const interactives = this.props.interactives || [];
+				onContextMenu(moreProps, e, interactives, state);
 			}
 		}
 	}
