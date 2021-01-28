@@ -21,7 +21,7 @@ class Arrows extends Component {
 		this.isHover = this.isHover.bind(this);
 	}
 	isHover(moreProps) {
-		const { tolerance, onHover } = this.props;
+		const { tolerance, onHover, getHoverInteractive } = this.props;
 
 		if (isDefined(onHover)) {
 			const { x1Value, x2Value, y1Value, y2Value, type } = this.props;
@@ -41,9 +41,7 @@ class Arrows extends Component {
 				xScale,
 				yScale,
 			});
-
-			// console.log("hovering ->", hovering);
-
+			getHoverInteractive(hovering);
 			return hovering;
 		}
 		return false;
@@ -114,7 +112,7 @@ class Arrows extends Component {
 		);
 	}
 	render() {
-		const { selected, interactiveCursorClass } = this.props;
+		const { selected, interactiveCursorClass, hovering } = this.props;
 		const {
 			onDragStart,
 			onDrag,
@@ -132,6 +130,7 @@ class Arrows extends Component {
 
 				interactiveCursorClass={interactiveCursorClass}
 				selected={selected}
+				hovering={hovering}
 				onDragStart={onDragStart}
 				onDrag={onDrag}
 				onDragComplete={onDragComplete}

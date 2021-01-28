@@ -29,6 +29,7 @@ class FreeArrows extends Component {
 		this.saveNodeType = saveNodeType.bind(this);
 
 		this.getSelectionState = isHoverForInteractiveType("arrows").bind(this);
+		this.getHoverInteractive = this.getHoverInteractive.bind(this);
 
 		this.state = {};
 		this.nodes = [];
@@ -126,6 +127,16 @@ class FreeArrows extends Component {
 			);
 		}
 	}
+	getHoverInteractive(hovering, arrow) {
+		this.setState({
+			...this.state,
+			hovering	
+		})
+		arrow.hovering = hovering;
+		const { isHover } = this.props;
+		isHover(hovering, arrow);
+	}
+	
 	render() {
 		const { appearance } = this.props;
 		const { enabled, snap, shouldDisableSnap, snapTo, type } = this.props;
@@ -171,6 +182,7 @@ class FreeArrows extends Component {
 							index={idx}
 							type={each.type}
 							selected={each.selected}
+							hovering={each.hovering}
 							x1Value={getValueFromOverride(
 								override,
 								idx,
@@ -216,6 +228,7 @@ class FreeArrows extends Component {
 							onDragComplete={this.handleDragLineComplete}
 							edgeInteractiveCursor="react-stockcharts-move-cursor"
 							lineInteractiveCursor="react-stockcharts-move-cursor"
+							getHoverInteractive={hovering => this.getHoverInteractive(hovering, each)}
 						/>
 					);
 				})}
