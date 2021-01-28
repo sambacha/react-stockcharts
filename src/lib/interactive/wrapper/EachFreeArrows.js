@@ -223,6 +223,7 @@ class EachFreeArrows extends Component {
 						onDragStart={this.handleLineDragStart}
 						onDrag={this.handleLineDrag}
 						onDragComplete={onDragComplete}
+						getHoverInteractive={this.props.getHoverInteractive}
 					/>
 				</g>
 				<HoverTextNearMouse
@@ -302,6 +303,7 @@ EachFreeArrows.defaultProps = {
 	onUnSelect: noop,
 
 	selected: false,
+	hovering: false,
 
 	edgeStroke: "#000000",
 	edgeFill: "#FFFFFF",

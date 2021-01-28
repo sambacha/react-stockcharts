@@ -59,6 +59,7 @@ class CandlestickChart extends React.Component {
 
         this.saveInteractiveNodes = saveInteractiveNodes.bind(this);
         this.getInteractiveNodes = getInteractiveNodes.bind(this);
+        this.handleHover = this.handleHover.bind(this);
 
         this.saveCanvasNode = this.saveCanvasNode.bind(this);
 
@@ -136,6 +137,10 @@ class CandlestickChart extends React.Component {
             enableInteractiveObject: false,
             arrows_3,
         });
+    }
+    handleHover(hovering, arrow) {
+        console.log(hovering, "handleHover");
+        console.log(arrow.hovering, "handleHover");
     }
     onKeyPress(e) {
         const keyCode = e.which;
@@ -245,6 +250,7 @@ class CandlestickChart extends React.Component {
                         ema12.accessor(),
                     ]}
                     padding={{ top: 10, bottom: 20 }}
+                    interactives={{arrows_1: this.state.arrows_1 }}
                 >
                     <XAxis
                         axisAt="bottom"
@@ -315,6 +321,7 @@ class CandlestickChart extends React.Component {
                         onStart={() => console.log("START")}
                         onComplete={this.onDrawCompleteChart1}
                         arrows={this.state.arrows_1}
+                        isHover={this.handleHover}
                     />
                 </Chart>
                 <Chart
