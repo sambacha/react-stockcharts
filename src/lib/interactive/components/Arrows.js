@@ -130,7 +130,6 @@ class Arrows extends Component {
 
 				interactiveCursorClass={interactiveCursorClass}
 				selected={selected}
-				hovering={hovering}
 				onDragStart={onDragStart}
 				onDrag={onDrag}
 				onDragComplete={onDragComplete}

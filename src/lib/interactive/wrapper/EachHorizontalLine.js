@@ -172,7 +172,9 @@ class EachHorizontalLine extends Component {
 				interactiveCursorClass={lineInteractiveCursor}
 				onDragStart={this.handleLineDragStart}
 				onDrag={this.handleLineDrag}
-				onDragComplete={onDragComplete} />
+				onDragComplete={onDragComplete}
+				getHoverInteractive={this.props.getHoverInteractive}
+			/>
 			<ClickableCircle
 				ref={this.saveNodeType("edge1")}
 				show={selected || hover}
@@ -255,6 +257,7 @@ EachHorizontalLine.defaultProps = {
 	onUnSelect: noop,
 
 	selected: false,
+	hovering: false,
 
 	edgeStroke: "#000000",
 	edgeFill: "#FFFFFF",
