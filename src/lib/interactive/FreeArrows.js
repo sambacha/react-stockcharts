@@ -182,7 +182,6 @@ class FreeArrows extends Component {
 							index={idx}
 							type={each.type}
 							selected={each.selected}
-							hovering={each.hovering}
 							x1Value={getValueFromOverride(
 								override,
 								idx,

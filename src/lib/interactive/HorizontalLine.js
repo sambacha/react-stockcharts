@@ -29,6 +29,7 @@ class HorizontalLine extends Component {
 
 		this.getSelectionState = isHoverForInteractiveType("trends")
 			.bind(this);
+		this.getHoverInteractive = this.getHoverInteractive.bind(this);
 
 		this.state = {};
 		this.nodes = [];
@@ -115,6 +116,16 @@ class HorizontalLine extends Component {
 			});
 	}
 
+	getHoverInteractive(hovering, horizontalLine) {
+		this.setState({
+			...this.state,
+			hovering	
+		})
+		horizontalLine.hovering = hovering;
+		const { isHover } = this.props;
+		isHover(hovering, horizontalLine);
+	}
+
 	render() {
 		const { appearance } = this.props;
 		const { enabled, snap, shouldDisableSnap, snapTo, type } = this.props;
@@ -169,6 +180,7 @@ class HorizontalLine extends Component {
 					onDragComplete={this.handleDragLineComplete}
 					edgeInteractiveCursor="react-stockcharts-move-cursor"
 					lineInteractiveCursor="react-stockcharts-move-cursor"
+					getHoverInteractive={hovering => this.getHoverInteractive(hovering, each)}
 				/>;
 			})}
 			{tempLine}
