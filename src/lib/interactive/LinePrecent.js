@@ -30,6 +30,7 @@ class LinePrecent extends Component {
     this.getSelectionState = isHoverForInteractiveType("percents").bind(
       this
     );
+    this.getHoverInteractive = this.getHoverInteractive.bind(this);
 
     this.state = {
       percent: ""
@@ -138,6 +139,16 @@ class LinePrecent extends Component {
       );
     }
   }
+  getHoverInteractive(hovering, precentlLine) {
+		this.setState({
+			...this.state,
+			hovering	
+		})
+		precentlLine.hovering = hovering;
+		const { isHover } = this.props;
+		isHover(hovering, precentlLine);
+  }
+  
   render() {
     const { appearance } = this.props;
     const { enabled, snap, shouldDisableSnap, snapTo } = this.props;
@@ -178,6 +189,7 @@ class LinePrecent extends Component {
             edgeInteractiveCursor="react-stockcharts-move-cursor"
             lineInteractiveCursor="react-stockcharts-move-cursor"
             {...current}
+            getHoverInteractive={hovering => this.getHoverInteractive(hovering, each)}
           />
         </g>
       ) : null;
@@ -237,6 +249,7 @@ class LinePrecent extends Component {
               onDragComplete={this.handleDragLineComplete}
               edgeInteractiveCursor="react-stockcharts-move-cursor"
               lineInteractiveCursor="react-stockcharts-move-cursor"
+              getHoverInteractive={hovering => this.getHoverInteractive(hovering, each)}
             />
           );
         })}
