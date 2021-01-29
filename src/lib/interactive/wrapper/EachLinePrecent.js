@@ -267,6 +267,7 @@ class EachLinePrecent extends Component {
                     onDragStart={this.handleLineDragStart}
                     onDrag={this.handleLineDrag}
                     onDragComplete={onDragComplete}
+                    getHoverInteractive={this.props.getHoverInteractive}
                 />
                 <ClickableCircle
                     ref={this.saveNodeType("edge1")}
@@ -400,6 +401,7 @@ EachLinePrecent.defaultProps = {
     onUnSelect: noop,
 
     selected: false,
+    hovering: false,
 
     label: "5555%",
 

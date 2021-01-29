@@ -254,6 +254,7 @@ class EachEquidistantChannel extends Component {
 				onDragStart={this.handleDragStart}
 				onDrag={this.handleChannelDrag}
 				onDragComplete={onDragComplete}
+				getHoverInteractive={this.props.getHoverInteractive}
 			/>
 			{line1Edge}
 			{line2Edge}
@@ -295,6 +296,7 @@ EachEquidistantChannel.defaultProps = {
 	yDisplayFormat: d => d.toFixed(2),
 	interactive: true,
 	selected: false,
+	hovering: false,
 
 	onDrag: noop,
 	onDragComplete: noop,

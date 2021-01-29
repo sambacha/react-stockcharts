@@ -38,7 +38,9 @@ class StraightLine extends Component {
 				yScale,
 			});
 
-			getHoverInteractive(hovering);
+			if (getHoverInteractive) {
+				getHoverInteractive(hovering);
+			}
 			return hovering;
 		}
 		return false;
@@ -71,7 +73,7 @@ class StraightLine extends Component {
 		);
 	}
 	render() {
-		const { selected, interactiveCursorClass, hovering } = this.props;
+		const { selected, interactiveCursorClass } = this.props;
 		const { onDragStart, onDrag, onDragComplete, onHover, onUnHover } = this.props;
 
 		return <GenericChartComponent

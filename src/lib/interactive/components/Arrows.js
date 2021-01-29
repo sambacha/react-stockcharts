@@ -41,7 +41,10 @@ class Arrows extends Component {
 				xScale,
 				yScale,
 			});
-			getHoverInteractive(hovering);
+
+			if (getHoverInteractive) {
+				getHoverInteractive(hovering);
+			}
 			return hovering;
 		}
 		return false;

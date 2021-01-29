@@ -117,10 +117,6 @@ class HorizontalLine extends Component {
 	}
 
 	getHoverInteractive(hovering, horizontalLine) {
-		this.setState({
-			...this.state,
-			hovering	
-		})
 		horizontalLine.hovering = hovering;
 		const { isHover } = this.props;
 		isHover(hovering, horizontalLine);

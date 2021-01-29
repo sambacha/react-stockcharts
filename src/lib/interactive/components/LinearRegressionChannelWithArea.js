@@ -18,7 +18,7 @@ class LinearRegressionChannelWithArea extends Component {
 		this.isHover = this.isHover.bind(this);
 	}
 	isHover(moreProps) {
-		const { tolerance, onHover } = this.props;
+		const { tolerance, onHover, getHoverInteractive } = this.props;
 
 		if (isDefined(onHover)) {
 			const { mouseXY } = moreProps;
@@ -29,6 +29,10 @@ class LinearRegressionChannelWithArea extends Component {
 			const hovering = yDiffs.reduce((result, diff) => result || isHovering2(
 				[x1, y1 + diff], [x2, y2 + diff], mouseXY, tolerance
 			), false);
+
+			if (getHoverInteractive) {
+				getHoverInteractive(hovering)
+			}
 			return hovering;
 		}
 		return false;
