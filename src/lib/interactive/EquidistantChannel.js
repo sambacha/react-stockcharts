@@ -138,10 +138,6 @@ class EquidistantChannel extends Component {
 		}
 	}
 	getHoverInteractive(hovering, equidistant) {
-		this.setState({
-			...this.state,
-			hovering	
-		})
 		equidistant.hovering = hovering;
 		const { isHover } = this.props;
 		isHover(hovering, equidistant);

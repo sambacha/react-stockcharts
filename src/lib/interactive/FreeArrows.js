@@ -128,10 +128,6 @@ class FreeArrows extends Component {
 		}
 	}
 	getHoverInteractive(hovering, arrow) {
-		this.setState({
-			...this.state,
-			hovering	
-		})
 		arrow.hovering = hovering;
 		const { isHover } = this.props;
 		isHover(hovering, arrow);

@@ -140,10 +140,6 @@ class LinePrecent extends Component {
     }
   }
   getHoverInteractive(hovering, precentlLine) {
-		this.setState({
-			...this.state,
-			hovering	
-		})
 		precentlLine.hovering = hovering;
 		const { isHover } = this.props;
 		isHover(hovering, precentlLine);

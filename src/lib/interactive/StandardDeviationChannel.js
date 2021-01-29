@@ -120,10 +120,6 @@ class StandardDeviationChannel extends Component {
 		}
 	}
 	getHoverInteractive(hovering, channel) {
-		this.setState({
-			...this.state,
-			hovering	
-		})
 		channel.hovering = hovering;
 		const { isHover } = this.props;
 		isHover(hovering, channel);
@@ -154,7 +150,6 @@ class StandardDeviationChannel extends Component {
 				x2Value={current.end[0]}
 				appearance={eachDefaultAppearance}
 				hoverText={hoverTextDefault}
-				getHoverInteractive={hovering => this.getHoverInteractive(hovering, each)}
 			/>
 			: null;
 
@@ -168,7 +163,8 @@ class StandardDeviationChannel extends Component {
 					? { ...hoverTextDefault, ...each.hoverText }
 					: hoverTextDefault;
 
-				return <EachLinearRegressionChannel key={idx}
+				return <EachLinearRegressionChannel 
+					key={idx}
 					ref={this.saveNodeType(idx)}
 					index={idx}
 					selected={each.selected}

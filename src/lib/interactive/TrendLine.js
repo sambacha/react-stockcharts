@@ -125,10 +125,6 @@ class TrendLine extends Component {
 		}
 	}
 	getHoverInteractive(hovering, trendLine) {
-		this.setState({
-			...this.state,
-			hovering	
-		})
 		trendLine.hovering = hovering;
 		const { isHover } = this.props;
 		isHover(hovering, trendLine);
