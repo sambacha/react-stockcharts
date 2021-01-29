@@ -185,7 +185,6 @@ class LinePrecent extends Component {
             edgeInteractiveCursor="react-stockcharts-move-cursor"
             lineInteractiveCursor="react-stockcharts-move-cursor"
             {...current}
-            getHoverInteractive={hovering => this.getHoverInteractive(hovering, each)}
           />
         </g>
       ) : null;
