@@ -111,7 +111,9 @@ class EachLinearRegressionChannel extends Component {
 				stroke={stroke}
 				strokeWidth={(hover || selected) ? strokeWidth + 1 : strokeWidth}
 				strokeOpacity={strokeOpacity}
-				fillOpacity={fillOpacity} />
+				fillOpacity={fillOpacity}
+				getHoverInteractive={this.props.getHoverInteractive}
+			/>
 			<ClickableCircle
 				ref={this.saveNodeType("edge1")}
 				show={selected || hover}
@@ -200,6 +202,7 @@ EachLinearRegressionChannel.defaultProps = {
 	},
 	interactive: true,
 	selected: false,
+	hovering: false,
 	hoverText: {
 		...HoverTextNearMouse.defaultProps,
 		enable: true,
