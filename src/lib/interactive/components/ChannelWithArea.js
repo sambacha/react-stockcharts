@@ -18,7 +18,7 @@ class ChannelWithArea extends Component {
 		this.isHover = this.isHover.bind(this);
 	}
 	isHover(moreProps) {
-		const { tolerance, onHover } = this.props;
+		const { tolerance, onHover, getHoverInteractive } = this.props;
 
 		if (isDefined(onHover)) {
 
@@ -50,6 +50,9 @@ class ChannelWithArea extends Component {
 					yScale,
 				});
 
+				if (getHoverInteractive) {
+					getHoverInteractive(line1Hovering || line2Hovering);
+				}
 				return line1Hovering || line2Hovering;
 			}
 		}
