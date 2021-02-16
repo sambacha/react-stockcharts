@@ -3,11 +3,13 @@ import PropTypes from "prop-types";
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
 import displayValuesFor from "./displayValuesFor";
+import getYesterdayDate from "./getYesterdayDate";
 import GenericChartComponent from "../GenericChartComponent";
 
 import { isDefined, functor } from "../utils";
 import ToolTipText from "./ToolTipText";
 import ToolTipTSpanLabel from "./ToolTipTSpanLabel";
+import { findIndex } from "lodash";
 
 class OHLCTooltip extends Component {
   constructor(props) {
@@ -30,27 +32,38 @@ class OHLCTooltip extends Component {
     const {
       chartConfig: { width, height },
     } = moreProps;
-    const { displayXAccessor } = moreProps;
+    const { displayXAccessor, fullData } = moreProps;
 
     const currentItem = displayValuesFor(this.props, moreProps);
+    const currentItemIndex = findIndex(fullData, currentItem);
 
-    let displayDate, open, high, low, close, volume, percentChange;
-    displayDate = open = high = low = close = volume = percentChange =
+    const previousItemIndex = currentItemIndex - 1;
+    const previousItem = fullData[previousItemIndex];
+    
+    const nextItemIndex = currentItemIndex + 1;
+    const nextItem = fullData[nextItemIndex];
+
+    const yesterdayItem = getYesterdayDate(previousItem, nextItem);
+
+    let displayDate, open, high, low, close, yesterdayClose, volume, percentChange;
+    displayDate = open = high = low = close = yesterdayClose = volume = percentChange =
       displayTexts.na;
 
-    if (isDefined(currentItem) && isDefined(accessor(currentItem))) {
+    if (isDefined(currentItem) && isDefined(yesterdayItem) && isDefined(accessor(currentItem))) {
       const item = accessor(currentItem);
 
       volume = isDefined(item.volume)
         ? volumeFormat(item.volume)
         : displayTexts.na;
-
+        
       displayDate = xDisplayFormat(displayXAccessor(item));
       open = ohlcFormat(item.open);
       high = ohlcFormat(item.high);
       low = ohlcFormat(item.low);
       close = ohlcFormat(item.close);
-      percentChange = percentFormat((item.close - item.open) / item.open);
+      yesterdayClose = ohlcFormat(yesterdayItem.close);
+      percentChange = percentFormat((item.close - yesterdayClose) / yesterdayClose);
+
       if (onChange) {
         onChange({ displayDate, open, high, low, close, volume, percentChange })
       }
