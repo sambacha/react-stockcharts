@@ -35,21 +35,13 @@ class OHLCTooltip extends Component {
     const { displayXAccessor, fullData } = moreProps;
 
     const currentItem = displayValuesFor(this.props, moreProps);
-    const currentItemIndex = findIndex(fullData, currentItem);
-
-    const previousItemIndex = currentItemIndex - 1;
-    const previousItem = fullData[previousItemIndex];
-    
-    const nextItemIndex = currentItemIndex + 1;
-    const nextItem = fullData[nextItemIndex];
-
-    const yesterdayItem = getYesterdayDate(previousItem, nextItem);
+    const yesterdayItem = getYesterdayDate(fullData, currentItem);
 
     let displayDate, open, high, low, close, yesterdayClose, volume, percentChange;
     displayDate = open = high = low = close = yesterdayClose = volume = percentChange =
       displayTexts.na;
 
-    if (isDefined(currentItem) && isDefined(yesterdayItem) && isDefined(accessor(currentItem))) {
+    if (isDefined(currentItem) && isDefined(accessor(currentItem))) {
       const item = accessor(currentItem);
 
       volume = isDefined(item.volume)
@@ -61,8 +53,8 @@ class OHLCTooltip extends Component {
       high = ohlcFormat(item.high);
       low = ohlcFormat(item.low);
       close = ohlcFormat(item.close);
-      yesterdayClose = ohlcFormat(yesterdayItem.close);
-      percentChange = percentFormat((item.close - yesterdayClose) / yesterdayClose);
+      yesterdayClose = isDefined(yesterdayItem) ? ohlcFormat(yesterdayItem.close) : null;
+      percentChange = isDefined(yesterdayItem) ? percentFormat((item.close - yesterdayClose) / yesterdayClose) : "n/a";
 
       if (onChange) {
         onChange({ displayDate, open, high, low, close, volume, percentChange })
@@ -162,7 +154,8 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
     fontSize,
     displayTexts,
     visible,
-    serverTime
+    serverTime,
+    onUpdateServerTime
   } = props;
   /* eslint-enable */
 
@@ -238,7 +231,8 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
           <tspan key="value_P" fill="white">{percentChange}</tspan>
           <tspan key="value_P_divider" fill="#567E9C" x="818px">|</tspan>
 
-          <ToolTipTSpanLabel fill="white" key="label_U" dx="34px">
+          <tspan onClick={onUpdateServerTime} fill="#567E9C" dx="34px">{serverTime ? "+" : ""}</tspan>
+          <ToolTipTSpanLabel fill="white" key="label_U" dx="5px">
             {serverTime ? displayTexts.u : ""}
           </ToolTipTSpanLabel>
           <tspan key="value_U" fill="white">{serverTime || ""}</tspan>
