@@ -9,8 +9,6 @@ import GenericChartComponent from "../GenericChartComponent";
 import { isDefined, functor } from "../utils";
 import ToolTipText from "./ToolTipText";
 import ToolTipTSpanLabel from "./ToolTipTSpanLabel";
-import { findIndex } from "lodash";
-
 class OHLCTooltip extends Component {
   constructor(props) {
     super(props);
@@ -155,7 +153,7 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
     displayTexts,
     visible,
     serverTime,
-    onUpdateServerTime
+    onUpdateServerTime = () => { console.log("onUpdateServerTime") }
   } = props;
   /* eslint-enable */
 
@@ -182,6 +180,7 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
         onClick={onClick}
         fill="white"
       >
+        <image onClick={onUpdateServerTime} x="853px" y="-10px" href="./images/cycle_arrow.png" height="24" width="24"/>
         <ToolTipText
           x={0}
           y={0}
@@ -231,8 +230,7 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
           <tspan key="value_P" fill="white">{percentChange}</tspan>
           <tspan key="value_P_divider" fill="#567E9C" x="818px">|</tspan>
 
-          <tspan onClick={onUpdateServerTime} fill="#567E9C" dx="34px">{serverTime ? "+" : ""}</tspan>
-          <ToolTipTSpanLabel fill="white" key="label_U" dx="5px">
+          <ToolTipTSpanLabel fill="white" key="label_U" dx="60px">
             {serverTime ? displayTexts.u : ""}
           </ToolTipTSpanLabel>
           <tspan key="value_U" fill="white">{serverTime || ""}</tspan>
