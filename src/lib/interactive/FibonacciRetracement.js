@@ -30,6 +30,7 @@ class FibonacciRetracement extends Component {
 		this.terminate = terminate.bind(this);
 		this.getSelectionState = isHoverForInteractiveType("retracements")
 			.bind(this);
+		this.getHoverInteractive = this.getHoverInteractive.bind(this);
 
 		this.saveNodeType = saveNodeType.bind(this);
 		this.nodes = [];
@@ -155,6 +156,12 @@ class FibonacciRetracement extends Component {
 			);
 		}
 	}
+	getHoverInteractive(hovering, retracement) {
+		retracement.hovering = hovering;
+		const { isHover } = this.props;
+		isHover(hovering, retracement);
+	}
+
 	render() {
 		const { current, override } = this.state;
 		const { retracements } = this.props;
@@ -209,6 +216,7 @@ class FibonacciRetracement extends Component {
 							appearance={eachAppearance}
 							onDrag={this.handleDrag}
 							onDragComplete={this.handleDragComplete}
+							getHoverInteractive={hovering => this.getHoverInteractive(hovering, each)}
 						/>
 					);
 				})}
@@ -298,10 +306,10 @@ FibonacciRetracement.defaultProps = {
 		fontSize: 11,
 		fontFill: "#000000",
 		edgeStroke: "#000000",
-		edgeFill: "#FFFFFF",
-		nsEdgeFill: "#000000",
+		edgeFill: "#FF0000",
+		nsEdgeFill: "#FF0000",
 		edgeStrokeWidth: 1,
-		r: 5,
+		r: 6,
 	}
 };
 

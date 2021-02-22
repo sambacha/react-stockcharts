@@ -57,6 +57,7 @@ class CandleStickChartWithFibonacciInteractiveIndicator extends React.Component 
 
 		this.saveInteractiveNodes = saveInteractiveNodes.bind(this);
 		this.getInteractiveNodes = getInteractiveNodes.bind(this);
+		this.handleHover = this.handleHover.bind(this);
 
 		this.saveCanvasNode = this.saveCanvasNode.bind(this);
 		this.state = {
@@ -95,6 +96,10 @@ class CandleStickChartWithFibonacciInteractiveIndicator extends React.Component 
 			enableFib: false
 		});
 	}
+	handleHover(hovering, retracement) {
+        console.log(hovering, "handleHover");
+        console.log(retracement.hovering, "handleHover");
+    }
 	onKeyPress(e) {
 		const keyCode = e.which;
 		switch (keyCode) {
@@ -194,6 +199,7 @@ class CandleStickChartWithFibonacciInteractiveIndicator extends React.Component 
 				<Chart id={1} height={400}
 					yExtents={[d => [d.high, d.low], ema26.accessor(), ema12.accessor()]}
 					padding={{ top: 10, bottom: 20 }}
+					interactives={{retracements_1: this.state.retracements_1 }}
 				>
 					<XAxis axisAt="bottom" orient="bottom" showTicks={false} outerTickSize={0} />
 					<YAxis axisAt="right" orient="right" ticks={5} />
@@ -239,6 +245,7 @@ class CandleStickChartWithFibonacciInteractiveIndicator extends React.Component 
 						enabled={this.state.enableFib}
 						retracements={this.state.retracements_1}
 						onComplete={this.onFibComplete1}
+						isHover={this.handleHover}
 					/>
 				</Chart>
 				<Chart id={2} height={150}
