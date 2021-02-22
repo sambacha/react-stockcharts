@@ -180,7 +180,7 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
         onClick={onClick}
         fill="white"
       >
-        <image onClick={onUpdateServerTime} x="853px" y="-10px" href="./images/cycle_arrow.png" height="24" width="24"/>
+        <image onClick={onUpdateServerTime} x="853px" y="-10px" href="./assets/cycle_arrow.png" height="24" width="24"/>
         <ToolTipText
           x={0}
           y={0}

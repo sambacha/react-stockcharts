@@ -231,6 +231,8 @@ class EachFibRetracement extends Component {
 							onDragStart={this.handleLineDragStart}
 							onDrag={dragHandler}
 							onDragComplete={onDragComplete}
+							getHoverInteractive={this.props.getHoverInteractive}
+
 						/>
 						<Text
 							selected={selected}
@@ -340,6 +342,7 @@ EachFibRetracement.defaultProps = {
 		r: 5,
 	},
 	selected: false,
+	hovering: false,
 
 	onDrag: noop,
 	onDragComplete: noop,
