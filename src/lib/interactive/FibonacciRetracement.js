@@ -305,7 +305,7 @@ FibonacciRetracement.defaultProps = {
 		fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
 		fontSize: 11,
 		fontFill: "#000000",
-		edgeStroke: "#000000",
+		edgeStroke: "#FF0000",
 		edgeFill: "#FF0000",
 		nsEdgeFill: "#FF0000",
 		edgeStrokeWidth: 1,
