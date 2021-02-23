@@ -237,9 +237,9 @@ StandardDeviationChannel.defaultProps = {
 		strokeWidth: 1,
 		fill: "#8AAFE2",
 		edgeStrokeWidth: 2,
-		edgeStroke: "#000000",
-		edgeFill: "#FFFFFF",
-		r: 5,
+		edgeStroke: "#FF0000",
+		edgeFill: "#FF0000",
+		r: 6,
 	},
 
 	onStart: noop,
