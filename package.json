@@ -1,6 +1,6 @@
 {
   "name": "@techvice/react-stockcharts",
-  "version": "0.8.60",
+  "version": "0.8.61",
   "description": "Highly customizable stock charts with ReactJS and d3",
   "main": "src/index.js",
   "module": "src/index.js",
