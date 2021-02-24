@@ -48,20 +48,20 @@ class LinearRegressionChannelWithArea extends Component {
 		ctx.beginPath();
 		ctx.moveTo(x1, y1 - dy);
 		ctx.lineTo(x2, y2 - dy);
+		ctx.lineTo(x2, y2 + dy);
+		ctx.lineTo(x1, y1 + dy);
+		ctx.closePath();
+		ctx.fill();
+
+		ctx.beginPath();
+		ctx.moveTo(x1, y1 - dy);
+		ctx.lineTo(x2, y2 - dy);
 		ctx.stroke();
 
 		ctx.beginPath();
 		ctx.moveTo(x2, y2 + dy);
 		ctx.lineTo(x1, y1 + dy);
 		ctx.stroke();
-
-		ctx.beginPath();
-		ctx.moveTo(x1, y1 - dy);
-		ctx.lineTo(x2, y2 - dy);
-		ctx.lineTo(x2, y2 + dy);
-		ctx.lineTo(x1, y1 + dy);
-		ctx.closePath();
-		ctx.fill();
 
 		ctx.beginPath();
 		ctx.moveTo(x2, y2);
