@@ -74,6 +74,7 @@ class EachLabelArrow extends Component {
 				hover: moreProps.hovering,
 			});
 		}
+		this.props.getHoverInteractive(moreProps.hovering)
 	}
 	handleDragComplete(...rest) {
 		this.setState({
@@ -222,10 +223,10 @@ EachLabelArrow.propTypes = {
 };
 
 EachLabelArrow.defaultProps = {
-	edgeStroke: "#000000",
-	edgeFill: "#FFFFFF",
-	edgeStrokeWidth: 2,
-	r: 5,
+	edgeStroke: "#FF0000",
+	edgeFill: "#FF0000",
+	edgeStrokeWidth: 1,
+	r: 6,
 	strokeWidth: 1,
 	strokeOpacity: 1,
 	strokeDasharray: "Solid",
@@ -233,6 +234,7 @@ EachLabelArrow.defaultProps = {
 	onDrag: noop,
 	onDragComplete: noop,
 	selected: false,
+	hovering: false,
 	width: 40,
 	type: "OPEN",
 	width: 40,
