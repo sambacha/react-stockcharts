@@ -182,7 +182,8 @@ class EachHorizontalLine extends Component {
 				cy={y1Value}
 				r={r}
 				fill={edgeFill}
-				stroke={anchor === "edge1" ? stroke : edgeStroke}
+				// stroke={anchor === "edge1" ? stroke : edgeStroke}
+				stroke={edgeStroke}
 				strokeWidth={edgeStrokeWidth}
 				strokeOpacity={1}
 				interactiveCursorClass={edgeInteractiveCursor}
@@ -259,10 +260,10 @@ EachHorizontalLine.defaultProps = {
 	selected: false,
 	hovering: false,
 
-	edgeStroke: "#000000",
-	edgeFill: "#FFFFFF",
-	edgeStrokeWidth: 2,
-	r: 5,
+	edgeStroke: "#FF0000",
+	edgeFill: "#FF0000",
+	edgeStrokeWidth: 1,
+	r: 6,
 	strokeWidth: 1,
 	strokeOpacity: 1,
 	strokeDasharray: "Solid",
