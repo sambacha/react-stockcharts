@@ -17,7 +17,7 @@ class LabelArrow extends Component {
 		this.isHover = this.isHover.bind(this);
 	}
 	isHover(moreProps) {
-		const { onHover, type } = this.props;
+		const { onHover, type, getHoverInteractive } = this.props;
 
 		if (isDefined(onHover)) {
 			const { rect } = helper(this.props, moreProps, type);
@@ -30,8 +30,14 @@ class LabelArrow extends Component {
                 x <= rect.x + rect.width &&
                 y <= rect.y + rect.height
 			) {
+				if (getHoverInteractive) {
+					getHoverInteractive(true);
+				}
 				return true;
 			}
+		}
+		if (getHoverInteractive) {
+			getHoverInteractive(false);
 		}
 		return false;
 	}
