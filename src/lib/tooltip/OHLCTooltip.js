@@ -150,12 +150,26 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
     onClick,
     fontFamily,
     fontSize,
-    displayTexts,
     visible,
-    serverTime,
+    serverTime = "08:00",
+    dir,
     onUpdateServerTime = () => { console.log("onUpdateServerTime") }
   } = props;
   /* eslint-enable */
+
+  const displayTextsRTL = {
+    d: ": Date",
+    o: ": O",
+    h: ": H",
+    l: ": L",
+    c: ": C",
+    v: ": Vol",
+    p: ": P",
+    na: "n/a",
+    u: ": Last update"
+  };
+
+  const displayTexts = dir === "rtl" ? displayTextsRTL : props.displayTexts;
 
   const {
     displayDate,
@@ -169,17 +183,82 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
     y,
   } = itemsToDisplay;
   // if (!visible) return null
-  return (
-    <g>
-      <rect width="100%" height="20px" fill="black"
-      transform={`translate(${x}, ${y})`}
-      ></rect>
+
+  const getRTL = () => {
+    return (
       <g
         className={`react-stockcharts-tooltip-hover ${className}`}
         transform={`translate(${x + 60}, ${y + 8})`}
         onClick={onClick}
         fill="white"
-      >
+      >        
+        <image onClick={onUpdateServerTime} y="-10px" href="./assets/cycle_arrow.png" height="24" width="24"/>
+        <ToolTipText
+          x={0}
+          y={0}
+          fontFamily={fontFamily}
+          fontSize={fontSize || 14}
+        >
+          <tspan key="value_U" fill="white" dy="6px" x="30px">{serverTime || ""}</tspan>
+          <ToolTipTSpanLabel fill="white" key="label_U" x="150px">
+            {serverTime ? displayTexts.u : ""}
+          </ToolTipTSpanLabel>
+          <tspan key="value_U_divider" fill="#567E9C" dx="15px">|</tspan>
+
+          <tspan key="value_P" fill="white" dx="30px">{percentChange}</tspan>
+          <ToolTipTSpanLabel fill="white" key="label_P" x="330px">
+            {displayTexts.p}
+          </ToolTipTSpanLabel>
+          <tspan key="value_P_divider" fill="#567E9C" dx="15px">|</tspan>
+
+          <tspan key="value_Vol" fill="white" dx="30px">{volume}</tspan>
+          <ToolTipTSpanLabel fill="white" key="label_Vol" x="450px">
+            {displayTexts.v}
+          </ToolTipTSpanLabel>
+          <tspan key="value_Vol_divider" fill="#567E9C" dx="15px">|</tspan>
+
+          <tspan key="value_C" fill="white" dx="30px">{close}</tspan>
+          <ToolTipTSpanLabel fill="white" key="label_C" x="570px">
+            {displayTexts.c}
+          </ToolTipTSpanLabel>
+          <tspan key="value_C_divider" fill="#567E9C" dx="15px">|</tspan>
+
+          <tspan key="value_L" fill="white" dx="30px">{low}</tspan>
+          <ToolTipTSpanLabel fill="white" key="label_L" x="685px">
+            {displayTexts.l}
+          </ToolTipTSpanLabel>
+          <tspan key="value_L_divider" fill="#567E9C" dx="15px">|</tspan>
+
+          <tspan key="value_H" fill="white" dx="30px">{high}</tspan>
+          <ToolTipTSpanLabel fill="white" key="label_H" x="800px">
+            {displayTexts.h}
+          </ToolTipTSpanLabel>
+          <tspan key="value_H_divider" fill="#567E9C" dx="15px">|</tspan>
+
+          <tspan key="value_O" fill="white" dx="30px">{open}</tspan>
+          <ToolTipTSpanLabel fill="white" key="label_O" x="915px">
+            {displayTexts.o}
+          </ToolTipTSpanLabel>
+          <tspan key="value_O_divider" fill="#567E9C" dx="15px">|</tspan>
+
+          <tspan key="value" fill="white" dx="30px">{displayDate}</tspan>
+          <ToolTipTSpanLabel fill="white" key="label" x="1060px">
+            {displayTexts.d}
+          </ToolTipTSpanLabel>
+          <tspan key="value_divider" fill="#567E9C" dx="15px">|</tspan> 
+        </ToolTipText>
+      </g>
+    )
+  }
+
+  const getLTR = () => {
+    return (
+      <g
+        className={`react-stockcharts-tooltip-hover ${className}`}
+        transform={`translate(${x + 60}, ${y + 8})`}
+        onClick={onClick}
+        fill="white"
+      >        
         <image onClick={onUpdateServerTime} x="853px" y="-10px" href="./assets/cycle_arrow.png" height="24" width="24"/>
         <ToolTipText
           x={0}
@@ -223,7 +302,6 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
           <tspan key="value_Vol" fill="white">{volume}</tspan>
           <tspan key="value_Vol_divider" fill="#567E9C" x="704px">|</tspan>
 
-
           <ToolTipTSpanLabel fill="white" key="label_P" dx="34px">
             {displayTexts.p}
           </ToolTipTSpanLabel>
@@ -235,8 +313,22 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
           </ToolTipTSpanLabel>
           <tspan key="value_U" fill="white">{serverTime || ""}</tspan>
           <tspan key="value_U_divider" fill="#567E9C" dx="12px">{serverTime ? "|" : ""}</tspan>
-        </ToolTipText>
+        </ToolTipText>       
       </g>
+    )
+  }
+
+  const renderTooltip = () => dir === "rtl" ? getRTL() : getLTR();
+  return (
+    <g>
+      <rect 
+        id="myGroup" 
+        width="100%" 
+        height="20px" 
+        fill="black"
+        transform={`translate(${x}, ${y})`}
+      ></rect>
+      {renderTooltip()}
     </g>
   );
 }
