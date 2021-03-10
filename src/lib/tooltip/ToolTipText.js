@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 class ToolTipText extends Component {
 	render() {
 		return <text
+			direction="ltr"
 			fontFamily={this.props.fontFamily}
 			fontSize={this.props.fontSize}
 			{...this.props}
