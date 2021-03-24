@@ -16,7 +16,7 @@ class Chart extends PureComponent {
 		this.yScale = this.yScale.bind(this);
 		this.listener = this.listener.bind(this);
 	}
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		const { id } = this.props;
 		const { subscribe } = this.context;
 		subscribe("chart_" + id,
@@ -36,7 +36,9 @@ class Chart extends PureComponent {
 		if (type === "contextmenu") {
 			const { currentCharts } = moreProps;
 			if (currentCharts.indexOf(id) > -1) {
-				onContextMenu(moreProps, e);
+
+				const interactives = this.props.interactives || [];
+				onContextMenu(moreProps, e, interactives, state);
 			}
 		}
 	}

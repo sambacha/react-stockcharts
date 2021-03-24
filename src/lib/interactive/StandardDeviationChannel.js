@@ -31,6 +31,7 @@ class StandardDeviationChannel extends Component {
 
 		this.getSelectionState = isHoverForInteractiveType("channels")
 			.bind(this);
+		this.getHoverInteractive = this.getHoverInteractive.bind(this);
 
 		this.nodes = [];
 		this.state = {};
@@ -118,6 +119,12 @@ class StandardDeviationChannel extends Component {
 			});
 		}
 	}
+	getHoverInteractive(hovering, channel) {
+		channel.hovering = hovering;
+		const { isHover } = this.props;
+		isHover(hovering, channel);
+	}
+
 	render() {
 		const { appearance } = this.props;
 		const { enabled, snapTo } = this.props;
@@ -156,7 +163,8 @@ class StandardDeviationChannel extends Component {
 					? { ...hoverTextDefault, ...each.hoverText }
 					: hoverTextDefault;
 
-				return <EachLinearRegressionChannel key={idx}
+				return <EachLinearRegressionChannel 
+					key={idx}
 					ref={this.saveNodeType(idx)}
 					index={idx}
 					selected={each.selected}
@@ -171,6 +179,7 @@ class StandardDeviationChannel extends Component {
 					onDrag={this.handleDragLine}
 					onDragComplete={this.handleDragLineComplete}
 					edgeInteractiveCursor="react-stockcharts-move-cursor"
+					getHoverInteractive={hovering => this.getHoverInteractive(hovering, each)}
 				/>;
 			})}
 			{tempLine}

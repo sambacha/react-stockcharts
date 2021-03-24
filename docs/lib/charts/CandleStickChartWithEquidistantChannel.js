@@ -57,6 +57,7 @@ class CandleStickChartWithEquidistantChannel extends React.Component {
 
 		this.saveInteractiveNodes = saveInteractiveNodes.bind(this);
 		this.getInteractiveNodes = getInteractiveNodes.bind(this);
+		this.handleHover = this.handleHover.bind(this);
 
 		this.state = {
 			enableInteractiveObject: true,
@@ -94,6 +95,10 @@ class CandleStickChartWithEquidistantChannel extends React.Component {
 			channels_1
 		});
 	}
+	handleHover(hovering, equidistant) {
+        console.log(hovering, "handleHover");
+        console.log(equidistant.hovering, "handleHover");
+    }
 	onKeyPress(e) {
 		const keyCode = e.which;
 		console.log(keyCode);
@@ -186,6 +191,7 @@ class CandleStickChartWithEquidistantChannel extends React.Component {
 				<Chart id={1} height={400}
 					yExtents={[d => [d.high, d.low], ema26.accessor(), ema12.accessor()]}
 					padding={{ top: 10, bottom: 20 }}
+					interactives={{channels_1: this.state.channels_1 }}
 				>
 					<XAxis axisAt="bottom" orient="bottom" showTicks={false} outerTickSize={0} />
 					<YAxis axisAt="right" orient="right" ticks={5} />
@@ -230,6 +236,7 @@ class CandleStickChartWithEquidistantChannel extends React.Component {
 						onStart={() => console.log("START")}
 						onComplete={this.onDrawComplete}
 						channels={channels_1}
+						isHover={this.handleHover}
 					/>
 				</Chart>
 				<Chart id={2} height={150}

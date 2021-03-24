@@ -1,8 +1,8 @@
 
 
 
-import { scaleOrdinal, schemeCategory10 } from  "d3-scale";
-import { bisector } from "d3-array";
+import { scaleOrdinal, schemeCategory10 } from "d3-scale";
+import { bisector, max } from "d3-array";
 import noop from "./noop";
 import identity from "./identity";
 
@@ -16,6 +16,7 @@ export { default as shallowEqual } from "./shallowEqual";
 export { default as mappedSlidingWindow } from "./mappedSlidingWindow";
 export { default as accumulatingWindow } from "./accumulatingWindow";
 export { default as PureComponent } from "./PureComponent";
+export { default as uniqueId } from "./uniqueId";
 
 export * from "./barWidth";
 export * from "./strokeDasharray";
@@ -38,7 +39,7 @@ export function path(loc = []) {
 	const key = Array.isArray(loc) ? loc : [loc];
 	const length = key.length;
 
-	return function(obj, defaultValue) {
+	return function (obj, defaultValue) {
 		if (length === 0) return isDefined(obj) ? obj : defaultValue;
 
 		let index = 0;
@@ -54,7 +55,7 @@ export function functor(v) {
 }
 
 export function createVerticalLinearGradient(stops) {
-	return function(moreProps, ctx) {
+	return function (moreProps, ctx) {
 		const { chartConfig: { height } } = moreProps;
 
 		const grd = ctx.createLinearGradient(0, height, 0, 0);
@@ -199,6 +200,7 @@ export function tail(array, accessor) {
 export const first = head;
 
 export function last(array, accessor) {
+
 	if (accessor && array) {
 		let value;
 		for (let i = array.length - 1; i >= 0; i--) {
@@ -209,6 +211,24 @@ export function last(array, accessor) {
 	}
 	const length = array ? array.length : 0;
 	return length ? array[length - 1] : undefined;
+}
+
+export function current(array, accessor) {
+	let lastTick, obvs = [], length = array.length, value = 0;
+	for (let i = 0; i < length; i++) {
+		let curTick = array[i];
+		if (i != 0) {
+			let lastObvValue = obvs[i - 1];
+			if (curTick[0] >= lastTick) {
+				value = lastObvValue + accessor(curTick);
+			} else {
+				value = lastObvValue - accessor(curTick);
+			}
+		}
+		obvs.push(Math.abs(value));
+		lastTick = curTick;
+	}
+	return Math.abs(value);
 }
 
 export function isDefined(d) {
@@ -266,7 +286,7 @@ export function hexToRGBA(inputHex, opacity) {
 		const g = parseInt(hex.substring(1 * multiplier, 2 * multiplier), 16);
 		const b = parseInt(hex.substring(2 * multiplier, 3 * multiplier), 16);
 
-		const result = `rgba(${ r }, ${ g }, ${ b }, ${ opacity })`;
+		const result = `rgba(${r}, ${g}, ${b}, ${opacity})`;
 
 		return result;
 	}
@@ -284,7 +304,7 @@ export function toObject(array, iteratee = identity) {
 }
 
 // copied from https://github.com/lodash/lodash/blob/master/mapValue.js
-export function mapValue(object, iteratee) {
+export function mapValue(object, iteratee = identity) {
 	object = Object(object);
 	// eslint-disable-next-line prefer-const
 	let result = {};
@@ -326,4 +346,62 @@ export function forOwn(obj, iteratee) {
 	const object = Object(obj);
 	Object.keys(object)
 		.forEach(key => iteratee(object[key], key, object));
+}
+
+export function trueRange(high, low, previousClose) {
+	const range1 = high - low;
+	const range2 = Math.abs(high - previousClose);
+	const range3 = Math.abs(low - previousClose);
+
+	if (previousClose === 0) {
+		return range1;
+	}
+	return Math.max(range1, range2, range3);
+}
+
+export function dxCalculation(diffDI, sumDI) {
+	return (100 * (diffDI / sumDI));
+}
+
+export function adxCalculation(adxPrevious, timePeriod, dx) {
+	return ((adxPrevious * (timePeriod - 1)) + dx) / timePeriod;
+}
+
+export function plusDICalculation(plusDMSmooth, trSmooth) {
+	return (100 * (plusDMSmooth / trSmooth));
+}
+
+export function minusDICalculation(minusDMSmooth, trSmooth) {
+	return (100 * (minusDMSmooth / trSmooth));
+}
+
+export function trSmoothCalculation(trPrevious, timePeriod, tr) {
+	return trPrevious - (trPrevious / timePeriod) + tr;
+}
+
+export function plusDMSmoothCalculation(plusDMPrevious, timePeriod, plusDM) {
+	return plusDMPrevious - (plusDMPrevious / timePeriod) + plusDM;
+}
+
+export function minusDMSmoothCalculation(minusDMPrevious, timePeriod, minusDM) {
+	return minusDMPrevious - (minusDMPrevious / timePeriod) + minusDM;
+}
+
+export function plusDMCalculation(currentHigh, previousHigh, currentLow, previousLow) {
+	const highDiff = currentHigh - previousHigh;
+	const lowDiff = previousLow - currentLow;
+	if (highDiff > lowDiff) {
+		return max([highDiff, 0]);
+	}
+	return 0;
+}
+
+export function minusDMCalculation(currentHigh, previousHigh, currentLow, previousLow) {
+	const highDiff = currentHigh - previousHigh;
+	const lowDiff = previousLow - currentLow;
+
+	if (lowDiff > highDiff) {
+		return max([lowDiff, 0]);
+	}
+	return 0;
 }
