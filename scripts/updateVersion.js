@@ -1,14 +1,14 @@
-var path = require("path");
-var fs = require("fs");
-var shell = require('shelljs');
+const path = require("path");
+const fs = require("fs");
+const shell = require("shelljs");
 
-var root = path.join(__dirname, "..");
+const root = path.join(__dirname, "..");
 
-var packageJson = fs.readFileSync(path.join(root, "package.json")).toString()
-var version = JSON.parse(packageJson).version;
+const packageJson = fs.readFileSync(path.join(root, "package.json")).toString();
+const version = JSON.parse(packageJson).version;
 
-var indexjs = path.join(root, "src", "index.js");
+const indexjs = path.join(root, "src", "index.js");
 
-shell.sed("-i", /(const version = ").*";/, "$1" + version + "\";", indexjs)
+shell.sed("-i", /(const version = ").*";/, "$1" + version + "\";", indexjs);
 
 console.log("updated version to", version);

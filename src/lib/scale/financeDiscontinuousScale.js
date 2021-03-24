@@ -70,7 +70,7 @@ export default function financeDiscontinuousScale(
 				: ticksAtLevel.slice();
 
 			for (let j = start; j <= end; j++) {
-				if (index[j].level === i) {
+				if (index && index[j] && index[j].level && index[j].level === i) {
 					temp.push(index[j]);
 				}
 			}
@@ -102,6 +102,10 @@ export default function financeDiscontinuousScale(
 			for (let i = 0; i < ticks.length - 1; i++) {
 				for (let j = i + 1; j < ticks.length; j++) {
 					if (ticks[j] - ticks[i] <= distance) {
+
+						if (!index[ticks[i] + d]) continue;
+						if (!index[ticks[j] + d]) continue;
+
 						ticksSet.remove(index[ticks[i] + d].level >= index[ticks[j] + d].level ? ticks[j] : ticks[i]);
 					}
 				}
@@ -120,10 +124,14 @@ export default function financeDiscontinuousScale(
 	scale.tickFormat = function() {
 		return function(x) {
 			const d = Math.abs(head(index).index);
-			const { format, date } = index[Math.floor(x + d)];
-			return format(date);
+			// const { format, date } = index[Math.floor(x + d)];
+			const indexMathfloor = index[Math.floor(x + d)],
+				format = indexMathfloor && indexMathfloor.format && indexMathfloor.format,
+				date = indexMathfloor && indexMathfloor.date && indexMathfloor.date;
+			return format && format(date);
 		};
 	};
+
 	scale.value = function(x) {
 		const d = Math.abs(head(index).index);
 		if (isDefined(index[Math.floor(x + d)])) {

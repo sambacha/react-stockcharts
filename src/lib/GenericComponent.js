@@ -1,15 +1,7 @@
-
-
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import {
-	isNotDefined,
-	isDefined,
-	noop,
-	functor,
-	identity,
-} from "./utils";
+import { isNotDefined, isDefined, noop, functor, identity } from "./utils";
 
 const aliases = {
 	mouseleave: "mousemove", // to draw interactive after mouse exit
@@ -50,15 +42,14 @@ class GenericComponent extends Component {
 		};
 	}
 	updateMoreProps(moreProps) {
-		Object.keys(moreProps).forEach(key => {
+		Object.keys(moreProps).forEach((key) => {
 			this.moreProps[key] = moreProps[key];
 		});
 	}
 	shouldTypeProceed() {
 		return true;
 	}
-	preEvaluate() {
-	}
+	preEvaluate() {}
 	listener(type, moreProps, state, e) {
 		// console.log(e.shiftKey)
 		if (isDefined(moreProps)) {
@@ -82,7 +73,7 @@ class GenericComponent extends Component {
 		switch (type) {
 			case "zoom":
 			case "mouseenter":
-			// DO NOT DRAW FOR THESE EVENTS
+				// DO NOT DRAW FOR THESE EVENTS
 				break;
 			case "mouseleave": {
 				this.moreProps.hovering = false;
@@ -97,10 +88,7 @@ class GenericComponent extends Component {
 				if (this.props.onContextMenu) {
 					this.props.onContextMenu(this.getMoreProps(), e);
 				}
-				if (
-					this.moreProps.hovering
-				&& this.props.onContextMenuWhenHover
-				) {
+				if (this.moreProps.hovering && this.props.onContextMenuWhenHover) {
 					this.props.onContextMenuWhenHover(this.getMoreProps(), e);
 				}
 				break;
@@ -114,7 +102,7 @@ class GenericComponent extends Component {
 			case "click": {
 				const moreProps = this.getMoreProps();
 				if (this.moreProps.hovering) {
-				// console.error("TODO use this only for SAR, Line series")
+					// console.error("TODO use this only for SAR, Line series")
 					this.props.onClickWhenHover(moreProps, e);
 				} else {
 					this.props.onClickOutside(moreProps, e);
@@ -125,27 +113,24 @@ class GenericComponent extends Component {
 				break;
 			}
 			case "mousemove": {
-
 				const prevHover = this.moreProps.hovering;
 				this.moreProps.hovering = this.isHover(e);
 
 				const { amIOnTop, setCursorClass } = this.context;
 
-				if (this.moreProps.hovering
-					&& !this.props.selected
-					/* && !prevHover */
-					&& amIOnTop(this.suscriberId)
-					&& isDefined(this.props.onHover)) {
+				if (
+					this.moreProps.hovering &&
+          !this.props.selected &&
+          /* && !prevHover */
+          amIOnTop(this.suscriberId) &&
+          isDefined(this.props.onHover)
+				) {
 					setCursorClass("react-stockcharts-pointer-cursor");
 					this.iSetTheCursorClass = true;
-				} else if (this.moreProps.hovering
-					&& this.props.selected
-					&& amIOnTop(this.suscriberId)) {
+				} else if (this.moreProps.hovering && this.props.selected && amIOnTop(this.suscriberId)) {
 					setCursorClass(this.props.interactiveCursorClass);
 					this.iSetTheCursorClass = true;
-				} else if (prevHover
-					&& !this.moreProps.hovering
-					&& this.iSetTheCursorClass) {
+				} else if (prevHover && !this.moreProps.hovering && this.iSetTheCursorClass) {
 					this.iSetTheCursorClass = false;
 					setCursorClass(null);
 				}
@@ -173,10 +158,7 @@ class GenericComponent extends Component {
 				if (this.props.onDoubleClick) {
 					this.props.onDoubleClick(moreProps, e);
 				}
-				if (
-					this.moreProps.hovering
-				&& this.props.onDoubleClickWhenHover
-				) {
+				if (this.moreProps.hovering && this.props.onDoubleClickWhenHover) {
 					this.props.onDoubleClickWhenHover(moreProps, e);
 				}
 				break;
@@ -229,15 +211,12 @@ class GenericComponent extends Component {
 		}
 	}
 	isHover(e) {
-		return isDefined(this.props.isHover)
-			? this.props.isHover(this.getMoreProps(), e)
-			: false;
+		return isDefined(this.props.isHover) ? this.props.isHover(this.getMoreProps(), e) : false;
 	}
 	getPanConditions() {
-		const draggable = (
-			!!(this.props.selected && this.moreProps.hovering)
-			|| (this.props.enableDragOnHover && this.moreProps.hovering)
-		);
+		const draggable =
+      !!(this.props.selected && this.moreProps.hovering) ||
+      (this.props.enableDragOnHover && this.moreProps.hovering);
 
 		return {
 			draggable,
@@ -248,10 +227,7 @@ class GenericComponent extends Component {
 		const type = aliases[trigger] || trigger;
 		const proceed = this.props.drawOn.indexOf(type) > -1;
 
-		if (proceed
-			|| this.props.selected /* this is to draw as soon as you select */
-			|| force
-		) {
+		if (proceed || this.props.selected /* this is to draw as soon as you select */ || force) {
 			const { chartCanvasType } = this.context;
 			const { canvasDraw } = this.props;
 
@@ -265,19 +241,19 @@ class GenericComponent extends Component {
 			}
 		}
 	}
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		const { subscribe, chartId } = this.context;
 		const { clip, edgeClip } = this.props;
 
-		subscribe(this.suscriberId,
-			{
-				chartId, clip, edgeClip,
-				listener: this.listener,
-				draw: this.draw,
-				getPanConditions: this.getPanConditions,
-			}
-		);
-		this.componentWillReceiveProps(this.props, this.context);
+		subscribe(this.suscriberId, {
+			chartId,
+			clip,
+			edgeClip,
+			listener: this.listener,
+			draw: this.draw,
+			getPanConditions: this.getPanConditions,
+		});
+		this.UNSAFE_componentWillReceiveProps(this.props, this.context);
 	}
 	componentWillUnmount() {
 		const { unsubscribe } = this.context;
@@ -304,20 +280,21 @@ class GenericComponent extends Component {
 				setCursorClass(null);
 			}
 		}
-		if (isDefined(canvasDraw)
-				&& !this.evaluationInProgress
-				// && !(this.someDragInProgress && this.props.selected)
-				/*
+		if (
+			isDefined(canvasDraw) &&
+      !this.evaluationInProgress &&
+			// && !(this.someDragInProgress && this.props.selected)
+      /*
 				prevent double draw of interactive elements
 				during dragging / hover / click etc.
 				*/
-				&& chartCanvasType !== "svg") {
-
+      chartCanvasType !== "svg"
+		) {
 			this.updateMoreProps(this.moreProps);
 			this.drawOnCanvas();
 		}
 	}
-	componentWillReceiveProps(nextProps, nextContext) {
+	UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
 		const { xScale, plotData, chartConfig, getMutableState } = nextContext;
 
 		this.props.debug(nextContext);
@@ -330,7 +307,9 @@ class GenericComponent extends Component {
 			newly created components like MouseHoverText which
 			is created right after a new interactive object is drawn
 			*/
-			xScale, plotData, chartConfig
+			xScale,
+			plotData,
+			chartConfig,
 		};
 	}
 	getMoreProps() {
@@ -348,9 +327,13 @@ class GenericComponent extends Component {
 		const { chartId, fullData } = this.context;
 
 		const moreProps = {
-			xScale, plotData, chartConfig,
-			xAccessor, displayXAccessor,
-			width, height,
+			xScale,
+			plotData,
+			chartConfig,
+			xAccessor,
+			displayXAccessor,
+			width,
+			height,
 			chartId,
 			fullData,
 			...this.moreProps,
@@ -361,8 +344,7 @@ class GenericComponent extends Component {
 	preCanvasDraw() {
 		// do nothing
 	}
-	postCanvasDraw() {
-	}
+	postCanvasDraw() {}
 	drawOnCanvas() {
 		const { canvasDraw, canvasToDraw } = this.props;
 		const { getCanvasContexts } = this.context;
@@ -385,7 +367,7 @@ class GenericComponent extends Component {
 
 		const suffix = isDefined(chartId) ? "-" + chartId : "";
 
-		const style = clip ? { "clipPath": `url(#chart-area-clip${suffix})` } : null;
+		const style = clip ? { clipPath: `url(#chart-area-clip${suffix})` } : null;
 
 		return <g style={style}>{svgDraw(this.getMoreProps())}</g>;
 	}
@@ -434,7 +416,7 @@ GenericComponent.propTypes = {
 GenericComponent.defaultProps = {
 	svgDraw: functor(null),
 	draw: [],
-	canvasToDraw: contexts => contexts.mouseCoord,
+	canvasToDraw: (contexts) => contexts.mouseCoord,
 	clip: true,
 	edgeClip: false,
 	selected: false,
@@ -444,6 +426,7 @@ GenericComponent.defaultProps = {
 	onClickWhenHover: noop,
 	onClickOutside: noop,
 	onDragStart: noop,
+	onDoubleClick: noop,
 	onMouseMove: noop,
 	onMouseDown: noop,
 	debug: noop,
@@ -463,10 +446,7 @@ GenericComponent.contextTypes = {
 	plotData: PropTypes.array.isRequired,
 	fullData: PropTypes.array.isRequired,
 
-	chartConfig: PropTypes.oneOfType([
-		PropTypes.array,
-		PropTypes.object,
-	]).isRequired,
+	chartConfig: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
 
 	morePropsDecorator: PropTypes.func,
 	generateSubscriptionId: PropTypes.func,

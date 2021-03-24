@@ -43,7 +43,6 @@ export default function() {
 		const rsiAlgorithm = slidingWindow()
 			.windowSize(windowSize)
 			.accumulator((values) => {
-
 				const avgGain = isDefined(prevAvgGain)
 					? (prevAvgGain * (windowSize - 1) + last(values).gain) / windowSize
 					: mean(values, (each) => each.gain);

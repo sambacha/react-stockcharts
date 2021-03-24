@@ -18,16 +18,16 @@ class HorizontalBarChart extends React.Component {
 
 		return (
 			<ChartCanvas ratio={ratio} width={width} height={400}
-					margin={{ left: 90, right: 10, top: 20, bottom: 30 }} type={type}
-					seriesName="Fruits"
-					xExtents={data => [0, max(data, d => d.x)]}
-					data={data}
-					xScale={scaleLinear()} flipXScale={false}
-					useCrossHairStyleCursor={false}>
+				margin={{ left: 90, right: 10, top: 20, bottom: 30 }} type={type}
+				seriesName="Fruits"
+				xExtents={data => [0, max(data, d => d.x)]}
+				data={data}
+				xScale={scaleLinear()} flipXScale={false}
+				useCrossHairStyleCursor={false}>
 				<Chart id={1}
-						yExtents={data.map(d => d.y)}
-						yScale={scalePoint()}
-						padding={.5}>
+					yExtents={data.map(d => d.y)}
+					yScale={scalePoint()}
+					padding={.5}>
 					<XAxis axisAt="bottom" orient="bottom" />
 					<YAxis axisAt="left" orient="left" />
 					<BarSeries yAccessor={d => d.y} xAccessor={d => d.x} swapScales />

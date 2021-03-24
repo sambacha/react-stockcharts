@@ -22,19 +22,19 @@ class GroupedBarChart extends React.Component {
 		const fill = (d, i) => f(i);
 		return (
 			<ChartCanvas ratio={ratio} width={width} height={400}
-					margin={{ left: 40, right: 10, top: 20, bottom: 30 }} type={type}
-					seriesName="Fruits"
-					xExtents={list => list.map(d => d.x)}
-					data={data}
-					xAccessor={d => d.x} xScale={scalePoint()}
-					padding={1}>
+				margin={{ left: 40, right: 10, top: 20, bottom: 30 }} type={type}
+				seriesName="Fruits"
+				xExtents={list => list.map(d => d.x)}
+				data={data}
+				xAccessor={d => d.x} xScale={scalePoint()}
+				padding={1}>
 				<Chart id={1}
-						yExtents={[0, d => [d.y1, d.y2, d.y3, d.y4]]}>
+					yExtents={[0, d => [d.y1, d.y2, d.y3, d.y4]]}>
 					<XAxis axisAt="bottom" orient="bottom" />
 					<YAxis axisAt="left" orient="left" />
 					<GroupedBarSeries yAccessor={[d => d.y1, d => d.y2, d => d.y3, d => d.y4]}
-							fill={fill}
-							spaceBetweenBar={3}/>
+						fill={fill}
+						spaceBetweenBar={3}/>
 				</Chart>
 			</ChartCanvas>
 		);

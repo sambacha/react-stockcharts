@@ -30,11 +30,14 @@ class HoverTextNearMouse extends Component {
 			const textNode = this.textNode;
 			if (textNode) {
 				const { width, height } = textNode.getBBox();
-				if (this.state.textWidth !== width || this.state.textHeight !== height) {
-					this.setState({
-						textWidth: width,
-						textHeight: height
-					});
+				if (
+					this.state.textWidth !== width ||
+                    this.state.textHeight !== height
+				) {
+					// this.setState({
+					//     textWidth: width,
+					//     textHeight: height,
+					// });
 				}
 			}
 		}
@@ -75,20 +78,16 @@ class HoverTextNearMouse extends Component {
 	}
 
 	renderSVG(moreProps) {
-		const {
-			fontFamily,
-			fontSize,
-			fill,
-			bgFill,
-			bgOpacity,
-		} = this.props;
+		const { fontFamily, fontSize, fill, bgFill, bgOpacity } = this.props;
 
-		// console.log(moreProps)
-		const textMetaData = helper({
-			...this.props,
-			bgWidth: this.getBgWidth(),
-			bgHeight: this.getBgHeight()
-		}, moreProps);
+		const textMetaData = helper(
+			{
+				...this.props,
+				bgWidth: this.getBgWidth(),
+				bgHeight: this.getBgHeight(),
+			},
+			moreProps
+		);
 
 		if (isDefined(textMetaData)) {
 			const { rect, text } = textMetaData;
@@ -108,7 +107,10 @@ class HoverTextNearMouse extends Component {
 						alignmentBaseline={"central"}
 						fill={fill}
 						x={text.x}
-						y={text.y}>{text.text}</text>
+						y={text.y}
+					>
+						{text.text}
+					</text>
 				</g>
 			);
 		}
@@ -116,10 +118,12 @@ class HoverTextNearMouse extends Component {
 	render() {
 		const { text } = this.props;
 		if (text) {
-			return <GenericChartComponent
-				svgDraw={this.renderSVG}
-				drawOn={["mousemove"]}
-			/>;
+			return (
+				<GenericChartComponent
+					svgDraw={this.renderSVG}
+					drawOn={["mousemove"]}
+				/>
+			);
 		} else {
 			return null;
 		}
@@ -152,46 +156,40 @@ HoverTextNearMouse.defaultProps = {
 };
 
 function helper(props, moreProps) {
-	const {
-		show,
-		bgWidth,
-		bgHeight,
-	} = props;
+	const { show, bgWidth, bgHeight } = props;
 
 	const {
 		mouseXY,
 		chartConfig: { height, width },
-		show: mouseInsideCanvas
+		show: mouseInsideCanvas,
 	} = moreProps;
 
 	if (show && mouseInsideCanvas) {
-		const [x, y] = mouseXY;
+		if (isDefined(mouseXY)) {
+			const [x, y] = mouseXY;
 
-		const cx = x < width / 2
-			? x + PADDING
-			: x - bgWidth - PADDING;
+			const cx = x < width / 2 ? x + PADDING : x - bgWidth - PADDING;
 
-		const cy = y < height / 2
-			? y + PADDING
-			: y - bgHeight - PADDING;
+			const cy = y < height / 2 ? y + PADDING : y - bgHeight - PADDING;
 
-		const rect = {
-			x: cx,
-			y: cy,
-			width: bgWidth,
-			height: bgHeight,
-		};
+			const rect = {
+				x: cx,
+				y: cy,
+				width: bgWidth,
+				height: bgHeight,
+			};
 
-		const text = {
-			text: props.text,
-			x: cx + PADDING / 2,
-			y: cy + bgHeight / 2,
-		};
+			const text = {
+				text: props.text,
+				x: cx + PADDING / 2,
+				y: cy + bgHeight / 2,
+			};
 
-		return {
-			rect,
-			text
-		};
+			return {
+				rect,
+				text,
+			};
+		}
 	}
 }
 

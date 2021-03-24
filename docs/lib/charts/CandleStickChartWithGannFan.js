@@ -81,32 +81,32 @@ class CandleStickChartWithGannFan extends React.Component {
 		const keyCode = e.which;
 		console.log(keyCode);
 		switch (keyCode) {
-		case 46: { // DEL
-			const fans = this.state.fans
-				.filter(each => !each.selected);
+			case 46: { // DEL
+				const fans = this.state.fans
+					.filter(each => !each.selected);
 
-			this.canvasNode.cancelDrag();
-			this.setState({
-				fans,
-			});
+				this.canvasNode.cancelDrag();
+				this.setState({
+					fans,
+				});
 
-			break;
-		}
-		case 27: { // ESC
-			this.node.terminate();
-			this.canvasNode.cancelDrag();
-			this.setState({
-				enableInteractiveObject: false
-			});
-			break;
-		}
-		case 68:   // D - Draw drawing object
-		case 69: { // E - Enable drawing object
-			this.setState({
-				enableInteractiveObject: true
-			});
-			break;
-		}
+				break;
+			}
+			case 27: { // ESC
+				this.node.terminate();
+				this.canvasNode.cancelDrag();
+				this.setState({
+					enableInteractiveObject: false
+				});
+				break;
+			}
+			case 68:   // D - Draw drawing object
+			case 69: { // E - Enable drawing object
+				this.setState({
+					enableInteractiveObject: true
+				});
+				break;
+			}
 		}
 	}
 	render() {

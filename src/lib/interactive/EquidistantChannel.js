@@ -29,6 +29,7 @@ class EquidistantChannel extends Component {
 
 		this.getSelectionState = isHoverForInteractiveType("channels")
 			.bind(this);
+		this.getHoverInteractive = this.getHoverInteractive.bind(this);
 
 		this.nodes = [];
 		this.state = {
@@ -136,6 +137,12 @@ class EquidistantChannel extends Component {
 			}
 		}
 	}
+	getHoverInteractive(hovering, equidistant) {
+		equidistant.hovering = hovering;
+		const { isHover } = this.props;
+		isHover(hovering, equidistant);
+	}
+
 	render() {
 		const { appearance } = this.props;
 		const { enabled } = this.props;
@@ -168,6 +175,7 @@ class EquidistantChannel extends Component {
 					appearance={eachAppearance}
 					onDrag={this.handleDragChannel}
 					onDragComplete={this.handleDragChannelComplete}
+					getHoverInteractive={hovering => this.getHoverInteractive(hovering, each)}
 				/>;
 			})}
 			{tempChannel}
@@ -239,11 +247,11 @@ EquidistantChannel.defaultProps = {
 		strokeWidth: 1,
 		fill: "#8AAFE2",
 		fillOpacity: 0.7,
-		edgeStroke: "#000000",
-		edgeFill: "#FFFFFF",
-		edgeFill2: "#250B98",
+		edgeStroke: "#FF0000",
+		edgeFill: "#FF0000",
+		edgeFill2: "#FF0000",
 		edgeStrokeWidth: 1,
-		r: 5,
+		r: 6,
 	}
 };
 

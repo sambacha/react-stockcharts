@@ -32,6 +32,7 @@ class TrendLine extends Component {
 
 		this.getSelectionState = isHoverForInteractiveType("trends")
 			.bind(this);
+		this.getHoverInteractive = this.getHoverInteractive.bind(this);
 
 		this.state = {
 		};
@@ -123,6 +124,11 @@ class TrendLine extends Component {
 			});
 		}
 	}
+	getHoverInteractive(hovering, trendLine) {
+		trendLine.hovering = hovering;
+		const { isHover } = this.props;
+		isHover(hovering, trendLine);
+	}
 	render() {
 		const { appearance } = this.props;
 		const { enabled, snap, shouldDisableSnap, snapTo, type } = this.props;
@@ -176,6 +182,7 @@ class TrendLine extends Component {
 					onDragComplete={this.handleDragLineComplete}
 					edgeInteractiveCursor="react-stockcharts-move-cursor"
 					lineInteractiveCursor="react-stockcharts-move-cursor"
+					getHoverInteractive={hovering => this.getHoverInteractive(hovering, each)}
 				/>;
 			})}
 			{tempLine}
@@ -206,6 +213,7 @@ TrendLine.propTypes = {
 	onStart: PropTypes.func.isRequired,
 	onComplete: PropTypes.func.isRequired,
 	onSelect: PropTypes.func,
+	onDoubleClick: PropTypes.func,
 
 	currentPositionStroke: PropTypes.string,
 	currentPositionStrokeWidth: PropTypes.number,
@@ -260,8 +268,8 @@ TrendLine.defaultProps = {
 		strokeWidth: 1,
 		strokeDasharray: "Solid",
 		edgeStrokeWidth: 1,
-		edgeFill: "#FFFFFF",
-		edgeStroke: "#000000",
+		edgeFill: "#FF0000",
+		edgeStroke: "#FF0000",
 		r: 6,
 	}
 };

@@ -35,18 +35,18 @@ class CandleStickChartForContinuousIntraDay extends React.Component {
 
 		return (
 			<ChartCanvas height={400}
-					ratio={ratio}
-					width={width}
-					margin={{ left: 80, right: 80, top: 10, bottom: 30 }}
-					type={type}
-					seriesName="MSFT"
-					data={data}
-					xScale={scaleTime()}
-					xAccessor={xAccessor}
-					xExtents={xExtents}>
+				ratio={ratio}
+				width={width}
+				margin={{ left: 80, right: 80, top: 10, bottom: 30 }}
+				type={type}
+				seriesName="MSFT"
+				data={data}
+				xScale={scaleTime()}
+				xAccessor={xAccessor}
+				xExtents={xExtents}>
 				<Chart id={2}
-						yExtents={[d => d.volume]}
-						height={150} origin={(w, h) => [0, h - 150]}>
+					yExtents={[d => d.volume]}
+					height={150} origin={(w, h) => [0, h - 150]}>
 					<YAxis axisAt="left" orient="left" ticks={5} tickFormat={format(".2s")}/>
 
 					<MouseCoordinateY
@@ -64,8 +64,8 @@ class CandleStickChartForContinuousIntraDay extends React.Component {
 						yAccessor={d => d.volume} displayFormat={format(".4s")} fill="#0F0F0F"/>
 				</Chart>
 				<Chart id={1}
-						yExtents={[d => [d.high, d.low]]}
-						padding={{ top: 40, bottom: 20 }}>
+					yExtents={[d => [d.high, d.low]]}
+					padding={{ top: 40, bottom: 20 }}>
 					<XAxis axisAt="bottom" orient="bottom"/>
 					<YAxis axisAt="right" orient="right" ticks={5} />
 

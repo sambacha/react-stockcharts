@@ -180,7 +180,7 @@ class EachGannFan extends Component {
 	}
 	render() {
 		const { startXY, endXY } = this.props;
-		const { interactive, appearance  } = this.props;
+		const { interactive, appearance } = this.props;
 		const {
 			edgeFill,
 			stroke, strokeWidth, strokeOpacity,

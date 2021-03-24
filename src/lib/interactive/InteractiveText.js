@@ -22,6 +22,8 @@ class InteractiveText extends Component {
 
 		this.handleDraw = this.handleDraw.bind(this);
 		this.handleDrag = this.handleDrag.bind(this);
+		this.handleDouble = this.handleDouble.bind(this);
+		this.handleDoubleClick = this.handleDoubleClick.bind(this);
 		this.handleDragComplete = this.handleDragComplete.bind(this);
 		this.terminate = terminate.bind(this);
 
@@ -42,6 +44,16 @@ class InteractiveText extends Component {
 	}
 	handleDragComplete(moreProps) {
 		const { override } = this.state;
+		const newOverride = override && override.position || null;
+
+		this.state = {
+			...this.state,
+			currentText: {
+				...this.state.currentText,
+				position: newOverride
+			}
+		};
+
 		if (isDefined(override)) {
 			const { textList } = this.props;
 			const newTextList = textList
@@ -58,11 +70,17 @@ class InteractiveText extends Component {
 							selected
 						};
 				});
+
 			this.setState({
-				override: null,
+				currentText: this.state.currentText
 			}, () => {
 				this.props.onDragComplete(newTextList, moreProps);
 			});
+
+			this.state = {
+				...this.state,
+				override: null
+			};
 		}
 	}
 	handleDrawLine(xyValue) {
@@ -77,17 +95,31 @@ class InteractiveText extends Component {
 			});
 		}
 	}
+	handleDoubleClick(moreProps, e) {
+		const { onDoubleClick } = this.props;
+		const { currentText } = this.state;
+
+		if (onDoubleClick && currentText !== null) {
+			onDoubleClick(currentText, moreProps, e);
+		}
+	}
+
+	handleDouble(props) {
+		this.setState({
+			currentText: props
+		});
+	}
 	handleDraw(moreProps, e) {
 		const { enabled } = this.props;
-		if (enabled) {
-			const {
-				mouseXY: [, mouseY],
-				chartConfig: { yScale },
-				xAccessor,
-				currentItem,
-			} = moreProps;
+		const {
+			mouseXY: [, mouseY],
+			chartConfig: { yScale },
+			xAccessor,
+			currentItem,
+		} = moreProps;
 
-			const xyValue = [xAccessor(currentItem), yScale.invert(mouseY)];
+		const xyValue = [xAccessor(currentItem), yScale.invert(mouseY)];
+		if (enabled) {
 
 			const { defaultText, onChoosePosition } = this.props;
 
@@ -95,14 +127,13 @@ class InteractiveText extends Component {
 				...defaultText,
 				position: xyValue,
 			};
-			onChoosePosition(newText, moreProps, e);
-		}/*  else {
-			this.handleClick(moreProps, e);
-		} */
+			// onChoosePosition(newText, moreProps, e);
+		}
 	}
 	render() {
 		const { textList, defaultText, hoverText } = this.props;
 		const { override } = this.state;
+
 		return <g>
 			{textList.map((each, idx) => {
 				const defaultHoverText = InteractiveText.defaultProps.hoverText;
@@ -123,13 +154,14 @@ class InteractiveText extends Component {
 					position={getValueFromOverride(override, idx, "position", each.position)}
 
 					onDrag={this.handleDrag}
+					onDoubleClick={this.handleDouble}
 					onDragComplete={this.handleDragComplete}
 					edgeInteractiveCursor="react-stockcharts-move-cursor"
 				/>;
 			})}
 			<GenericChartComponent
-
 				onClick={this.handleDraw}
+				onDoubleClick={this.handleDoubleClick}
 
 				svgDraw={noop}
 				canvasDraw={noop}
@@ -145,6 +177,7 @@ InteractiveText.propTypes = {
 	onChoosePosition: PropTypes.func.isRequired,
 	onDragComplete: PropTypes.func.isRequired,
 	onSelect: PropTypes.func,
+	onDoubleClick: PropTypes.func,
 
 	defaultText: PropTypes.shape({
 		bgFill: PropTypes.string.isRequired,
@@ -168,6 +201,7 @@ InteractiveText.defaultProps = {
 	onChoosePosition: noop,
 	onDragComplete: noop,
 	onSelect: noop,
+	onDoubleClick: noop,
 
 	defaultText: {
 		bgFill: "#D3D3D3",

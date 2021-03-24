@@ -1,15 +1,15 @@
 function getExternalAssets(mode) {
 	switch (mode) {
-	case "dev":
-	case "watch": {
-		return `<script src="react/umd/react.development.js"></script>
+		case "dev":
+		case "watch": {
+			return `<script src="react/umd/react.development.js"></script>
 		<script src="react-dom/umd/react-dom.development.js"></script>
 
 		<link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 		<link href="prismjs/themes/prism.css" rel="stylesheet">`;
-	}
-	default:
-		return `<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.1.1/umd/react.production.min.js"></script>
+		}
+		default:
+			return `<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.1.1/umd/react.production.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.1.1/umd/react-dom.production.min.js"></script>
 
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -108,8 +108,8 @@ module.exports = function(params) {
 
 		<!-- Placed at the end of the document so the pages load faster -->
 		${page === "index"
-			? `<script type="text/javascript" src="${chunks["react-stockcharts-home"].entry}"></script>`
-			: `<script type="text/javascript" src="${chunks["react-stockcharts-documentation"].entry}"></script>`}
+		? `<script type="text/javascript" src="${chunks["react-stockcharts-home"].entry}"></script>`
+		: `<script type="text/javascript" src="${chunks["react-stockcharts-documentation"].entry}"></script>`}
 
 		${getDevServerJs(mode)}
 	</body>

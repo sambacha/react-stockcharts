@@ -69,7 +69,7 @@ class MovingAverageCrossOverAlgorithmV2 extends React.Component {
 		const longAnnotationProps = {
 			...defaultAnnotationProps,
 			y: ({ yScale, datum }) => yScale(datum.low),
-			fill: "#006517",
+			fill: "green",
 			path: buyPath,
 			tooltip: "Go long",
 		};
@@ -77,7 +77,7 @@ class MovingAverageCrossOverAlgorithmV2 extends React.Component {
 		const shortAnnotationProps = {
 			...defaultAnnotationProps,
 			y: ({ yScale, datum }) => yScale(datum.high),
-			fill: "#FF0000",
+			fill: "red",
 			path: sellPath,
 			tooltip: "Go short",
 		};
@@ -103,19 +103,19 @@ class MovingAverageCrossOverAlgorithmV2 extends React.Component {
 
 		return (
 			<ChartCanvas height={height}
-					width={width}
-					ratio={ratio}
-					margin={margin}
-					type={type}
-					seriesName="MSFT"
-					data={data}
-					xScale={xScale}
-					xAccessor={xAccessor}
-					displayXAccessor={displayXAccessor}
-					xExtents={xExtents}>
+				width={width}
+				ratio={ratio}
+				margin={margin}
+				type={type}
+				seriesName="MSFT"
+				data={data}
+				xScale={xScale}
+				xAccessor={xAccessor}
+				displayXAccessor={displayXAccessor}
+				xExtents={xExtents}>
 				<Chart id={1}
-						yExtents={[d => [d.high, d.low], ema20.accessor(), ema50.accessor()]}
-						padding={{ top: 10, bottom: 20 }}>
+					yExtents={[d => [d.high, d.low], ema20.accessor(), ema50.accessor()]}
+					padding={{ top: 10, bottom: 20 }}>
 					<XAxis axisAt="bottom" orient="bottom"/>
 
 					<Label x={(width - margin.left - margin.right) / 2} y={height - 45}
@@ -162,7 +162,7 @@ class MovingAverageCrossOverAlgorithmV2 extends React.Component {
 								windowSize: ema50.options().windowSize,
 							},
 						]}
-						/>
+					/>
 
 					<Annotate with={SvgPathAnnotation} when={d => d.longShort === "LONG"}
 						usingProps={longAnnotationProps} />

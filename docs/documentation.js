@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { csvParse, tsvParse } from  "d3-dsv";
+import { csvParse, tsvParse } from "d3-dsv";
 import { merge } from "d3-array";
 import { timeParse } from "d3-time-format";
 
@@ -80,6 +80,9 @@ const INDICATORS = {
 		require("./lib/page/CompareWithPage").default,
 		require("./lib/page/MACDIndicatorPage").default,
 		require("./lib/page/RSIIndicatorPage").default,
+		require("./lib/page/CCIIndicatorPage").default,
+		require("./lib/page/OBVIndicatorPage").default,
+		require("./lib/page/ADXIndicatorPage").default,
 		require("./lib/page/StochasticIndicatorPage").default,
 		require("./lib/page/ForceIndexIndicatorPage").default,
 		require("./lib/page/ElderRayIndicatorPage").default,
@@ -109,6 +112,11 @@ const INTERACTIVE = {
 		require("./lib/page/InteractiveYCoordinatePage").default,
 		require("./lib/page/ClickHandlerCallbackPage").default,
 		require("./lib/page/BrushSupportPage").default,
+		require("./lib/page/ArrowsPage").default,
+		require("./lib/page/LabelArrowsPage").default,
+		require("./lib/page/LinePrecentPage").default,
+		require("./lib/page/ShapePage").default,
+		require("./lib/page/HorizontalLinePage").default,
 	]
 };
 
@@ -229,8 +237,8 @@ function renderPage(data, dataFull, intraDayContinuous, intraDayDiscontinuous, c
 			};
 		}
 		handleRouteChange() {
-			let selected = location.hash.replace("#/", "");
-			let selectedPage = pages.filter((page) => (compressString(page.title) === compressString(selected)));
+			const selected = location.hash.replace("#/", "");
+			const selectedPage = pages.filter((page) => (compressString(page.title) === compressString(selected)));
 			if (selectedPage.length > 0) {
 				this.setState({
 					selectedPage: selectedPage[0]
@@ -241,7 +249,7 @@ function renderPage(data, dataFull, intraDayContinuous, intraDayDiscontinuous, c
 			window.addEventListener("hashchange", this.handleRouteChange, false);
 		}
 		render() {
-			var Page = this.state.selectedPage;
+			const Page = this.state.selectedPage;
 			return (
 				<div>
 					<Nav />
@@ -257,15 +265,15 @@ function renderPage(data, dataFull, intraDayContinuous, intraDayDiscontinuous, c
 							)}
 						</Sidebar>
 						<Page someData={data}
-								intraDayContinuousData={intraDayContinuous}
-								intraDayDiscontinuousData={intraDayDiscontinuous}
-								lotsOfData={dataFull}
-								compareData={compareData}
-								bubbleData={bubbleData}
-								barData={barData}
-								groupedBarData={groupedBarData}
-								horizontalBarData={horizontalBarData}
-								horizontalGroupedBarData={horizontalGroupedBarData}/>
+							intraDayContinuousData={intraDayContinuous}
+							intraDayDiscontinuousData={intraDayDiscontinuous}
+							lotsOfData={dataFull}
+							compareData={compareData}
+							bubbleData={bubbleData}
+							barData={barData}
+							groupedBarData={groupedBarData}
+							horizontalBarData={horizontalBarData}
+							horizontalGroupedBarData={horizontalGroupedBarData} />
 					</MainContainer>
 				</div>
 			);
@@ -316,7 +324,7 @@ function renderPartialPage(data, dataFull, intraDayContinuous, intraDayDiscontin
 	// Kagi
 	// PointAndFigure
 	// Renko
-	var Chart = require("./lib/charts/CandleStickChartWithZoomPan").default;
+	const Chart = require("./lib/charts/CandleStickChartWithZoomPan").default;
 	// data, dataFull, compareData
 	class ExamplesPage extends React.Component {
 		render() {

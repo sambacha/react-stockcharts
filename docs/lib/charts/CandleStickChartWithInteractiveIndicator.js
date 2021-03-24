@@ -57,6 +57,7 @@ class CandlestickChart extends React.Component {
 
 		this.saveInteractiveNodes = saveInteractiveNodes.bind(this);
 		this.getInteractiveNodes = getInteractiveNodes.bind(this);
+		this.handleHover = this.handleHover.bind(this);
 
 		this.saveCanvasNode = this.saveCanvasNode.bind(this);
 
@@ -78,6 +79,7 @@ class CandlestickChart extends React.Component {
 		document.removeEventListener("keyup", this.onKeyPress);
 	}
 	handleSelection(interactives) {
+		console.log(interactives);
 		const state = toObject(interactives, each => {
 			return [
 				`trends_${each.chartId}`,
@@ -90,7 +92,6 @@ class CandlestickChart extends React.Component {
 		// this gets called on
 		// 1. draw complete of trendline
 		// 2. drag complete of trendline
-		console.log(trends_1);
 		this.setState({
 			enableTrendLine: false,
 			trends_1
@@ -106,40 +107,44 @@ class CandlestickChart extends React.Component {
 			trends_3
 		});
 	}
+	handleHover(hovering, horizontalLine) {
+		console.log(hovering, "handleHover");
+		console.log(horizontalLine.hovering, "handleHover");
+	}
 	onKeyPress(e) {
 		const keyCode = e.which;
 		console.log(keyCode);
 		switch (keyCode) {
-		case 46: { // DEL
+			case 46: { // DEL
 
-			const trends_1 = this.state.trends_1
-				.filter(each => !each.selected);
-			const trends_3 = this.state.trends_3
-				.filter(each => !each.selected);
+				const trends_1 = this.state.trends_1
+					.filter(each => !each.selected);
+				const trends_3 = this.state.trends_3
+					.filter(each => !each.selected);
 
-			this.canvasNode.cancelDrag();
-			this.setState({
-				trends_1,
-				trends_3,
-			});
-			break;
-		}
-		case 27: { // ESC
-			this.node_1.terminate();
-			this.node_3.terminate();
-			this.canvasNode.cancelDrag();
-			this.setState({
-				enableTrendLine: false
-			});
-			break;
-		}
-		case 68:   // D - Draw trendline
-		case 69: { // E - Enable trendline
-			this.setState({
-				enableTrendLine: true
-			});
-			break;
-		}
+				this.canvasNode.cancelDrag();
+				this.setState({
+					trends_1,
+					trends_3,
+				});
+				break;
+			}
+			case 27: { // ESC
+				this.node_1.terminate();
+				this.node_3.terminate();
+				this.canvasNode.cancelDrag();
+				this.setState({
+					enableTrendLine: false
+				});
+				break;
+			}
+			case 68:   // D - Draw trendline
+			case 69: { // E - Enable trendline
+				this.setState({
+					enableTrendLine: true
+				});
+				break;
+			}
 		}
 	}
 	render() {
@@ -194,9 +199,11 @@ class CandlestickChart extends React.Component {
 				displayXAccessor={displayXAccessor}
 				xExtents={xExtents}
 			>
-				<Chart id={1} height={400}
+				<Chart
+					id={1} height={400}
 					yExtents={[d => [d.high, d.low], ema26.accessor(), ema12.accessor()]}
 					padding={{ top: 10, bottom: 20 }}
+					interactives={{ trends_1: this.state.trends_1 }}
 				>
 					<XAxis axisAt="bottom" orient="bottom" showTicks={false} outerTickSize={0} />
 					<YAxis axisAt="right" orient="right" ticks={5} />
@@ -244,6 +251,7 @@ class CandlestickChart extends React.Component {
 						onStart={() => console.log("START")}
 						onComplete={this.onDrawCompleteChart1}
 						trends={this.state.trends_1}
+						isHover={this.handleHover}
 					/>
 				</Chart>
 				<Chart id={2} height={150}
