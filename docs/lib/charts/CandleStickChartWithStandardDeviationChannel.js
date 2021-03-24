@@ -36,6 +36,7 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
 
 		this.saveInteractiveNodes = saveInteractiveNodes.bind(this);
 		this.getInteractiveNodes = getInteractiveNodes.bind(this);
+		this.handleHover = this.handleHover.bind(this);
 
 		this.state = {
 			enableInteractiveObject: true,
@@ -72,6 +73,10 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
 			channels_1
 		});
 	}
+	handleHover(hovering, channel) {
+        console.log(hovering, "handleHover");
+        console.log(channel.hovering, "handleHover");
+    }
 	onKeyPress(e) {
 		const keyCode = e.which;
 		console.log(keyCode);
@@ -139,6 +144,7 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
 					id={1}
 					yExtents={[d => [d.high, d.low]]}
 					padding={{ top: 10, bottom: 20 }}
+					interactives={{channels_1: this.state.channels_1 }}
 				>
 
 					<YAxis axisAt="right" orient="right" ticks={5} />
@@ -172,6 +178,7 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
 						onStart={() => console.log("START")}
 						onComplete={this.onDrawComplete}
 						channels={channels_1}
+						isHover={this.handleHover}
 					/>
 				</Chart>
 				<CrossHairCursor />

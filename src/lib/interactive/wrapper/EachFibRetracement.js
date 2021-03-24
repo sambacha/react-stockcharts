@@ -40,6 +40,7 @@ class EachFibRetracement extends Component {
 				hover: moreProps.hovering
 			});
 		}
+		this.props.getHoverInteractive(moreProps.hovering)
 	}
 	handleLineDragStart() {
 		const {
@@ -231,6 +232,7 @@ class EachFibRetracement extends Component {
 							onDragStart={this.handleLineDragStart}
 							onDrag={dragHandler}
 							onDragComplete={onDragComplete}
+
 						/>
 						<Text
 							selected={selected}
@@ -340,6 +342,7 @@ EachFibRetracement.defaultProps = {
 		r: 5,
 	},
 	selected: false,
+	hovering: false,
 
 	onDrag: noop,
 	onDragComplete: noop,
