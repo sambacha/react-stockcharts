@@ -64,23 +64,23 @@ class CandleStickChartWithAnnotation extends React.Component {
 
 		return (
 			<ChartCanvas height={height}
-					ratio={ratio}
-					width={width}
-					margin={margin}
-					type={type}
-					seriesName="MSFT"
-					data={data}
-					xScale={xScale}
-					xAccessor={xAccessor}
-					displayXAccessor={displayXAccessor}
-					xExtents={xExtents}>
+				ratio={ratio}
+				width={width}
+				margin={margin}
+				type={type}
+				seriesName="MSFT"
+				data={data}
+				xScale={xScale}
+				xAccessor={xAccessor}
+				displayXAccessor={displayXAccessor}
+				xExtents={xExtents}>
 
 				<Label x={(width - margin.left - margin.right) / 2} y={30}
 					fontSize="30" text="Chart title here" />
 
 				<Chart id={1}
-						yExtents={[d => [d.high, d.low]]}
-						padding={{ top: 10, bottom: 20 }}>
+					yExtents={[d => [d.high, d.low]]}
+					padding={{ top: 10, bottom: 20 }}>
 					<XAxis axisAt="bottom" orient="bottom"/>
 					<MouseCoordinateX
 						at="bottom"

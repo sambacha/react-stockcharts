@@ -10,139 +10,139 @@ import { isDefined, functor } from "../utils";
 import ToolTipText from "./ToolTipText";
 import ToolTipTSpanLabel from "./ToolTipTSpanLabel";
 class OHLCTooltip extends Component {
-  constructor(props) {
-    super(props);
-    this.renderSVG = this.renderSVG.bind(this);
-  }
-  renderSVG(moreProps) {
-    const { displayValuesFor } = this.props;
-    const {
-      xDisplayFormat,
-      accessor,
-      volumeFormat,
-      ohlcFormat,
-      percentFormat,
-      displayTexts,
-      onChange,
-      visible
-    } = this.props;
+	constructor(props) {
+		super(props);
+		this.renderSVG = this.renderSVG.bind(this);
+	}
+	renderSVG(moreProps) {
+		const { displayValuesFor } = this.props;
+		const {
+			xDisplayFormat,
+			accessor,
+			volumeFormat,
+			ohlcFormat,
+			percentFormat,
+			displayTexts,
+			onChange,
+			visible
+		} = this.props;
 
-    const {
-      chartConfig: { width, height },
-    } = moreProps;
-    const { displayXAccessor, fullData } = moreProps;
+		const {
+			chartConfig: { width, height },
+		} = moreProps;
+		const { displayXAccessor, fullData } = moreProps;
 
-    const currentItem = displayValuesFor(this.props, moreProps);
-    const yesterdayItem = getYesterdayDate(fullData, currentItem);
+		const currentItem = displayValuesFor(this.props, moreProps);
+		const yesterdayItem = getYesterdayDate(fullData, currentItem);
 
-    let displayDate, open, high, low, close, yesterdayClose, volume, percentChange;
-    displayDate = open = high = low = close = yesterdayClose = volume = percentChange =
+		let displayDate, open, high, low, close, yesterdayClose, volume, percentChange;
+		displayDate = open = high = low = close = yesterdayClose = volume = percentChange =
       displayTexts.na;
 
-    if (isDefined(currentItem) && isDefined(accessor(currentItem))) {
-      const item = accessor(currentItem);
+		if (isDefined(currentItem) && isDefined(accessor(currentItem))) {
+			const item = accessor(currentItem);
 
-      volume = isDefined(item.volume)
-        ? volumeFormat(item.volume)
-        : displayTexts.na;
-        
-      displayDate = xDisplayFormat(displayXAccessor(item));
-      open = ohlcFormat(item.open);
-      high = ohlcFormat(item.high);
-      low = ohlcFormat(item.low);
-      close = ohlcFormat(item.close);
-      yesterdayClose = isDefined(yesterdayItem) ? ohlcFormat(yesterdayItem.close) : null;
-      percentChange = isDefined(yesterdayItem) ? percentFormat((item.close - yesterdayClose) / yesterdayClose) : "n/a";
+			volume = isDefined(item.volume)
+				? volumeFormat(item.volume)
+				: displayTexts.na;
 
-      if (onChange) {
-        onChange({ displayDate, open, high, low, close, volume, percentChange })
-      }
-    }
+			displayDate = xDisplayFormat(displayXAccessor(item));
+			open = ohlcFormat(item.open);
+			high = ohlcFormat(item.high);
+			low = ohlcFormat(item.low);
+			close = ohlcFormat(item.close);
+			yesterdayClose = isDefined(yesterdayItem) ? ohlcFormat(yesterdayItem.close) : null;
+			percentChange = isDefined(yesterdayItem) ? percentFormat((item.close - yesterdayClose) / yesterdayClose) : "n/a";
 
-    const { origin: originProp } = this.props;
-    const origin = functor(originProp);
-    const [x, y] = origin(width, height);
+			if (onChange) {
+				onChange({ displayDate, open, high, low, close, volume, percentChange });
+			}
+		}
 
-    const itemsToDisplay = {
-      displayDate,
-      open,
-      high,
-      low,
-      close,
-      percentChange,
-      volume,
-      x,
-      y,
-    };
+		const { origin: originProp } = this.props;
+		const origin = functor(originProp);
+		const [x, y] = origin(width, height);
 
-    return this.props.children(this.props, moreProps, itemsToDisplay);
-  }
-  render() {
-    return (
-      <GenericChartComponent
-        clip={false}
-        svgDraw={this.renderSVG}
-        drawOn={["mousemove"]}
-      />
-    );
-  }
+		const itemsToDisplay = {
+			displayDate,
+			open,
+			high,
+			low,
+			close,
+			percentChange,
+			volume,
+			x,
+			y,
+		};
+
+		return this.props.children(this.props, moreProps, itemsToDisplay);
+	}
+	render() {
+		return (
+			<GenericChartComponent
+				clip={false}
+				svgDraw={this.renderSVG}
+				drawOn={["mousemove"]}
+			/>
+		);
+	}
 }
 
 OHLCTooltip.propTypes = {
-  className: PropTypes.string,
-  accessor: PropTypes.func,
-  xDisplayFormat: PropTypes.func,
-  children: PropTypes.func,
-  volumeFormat: PropTypes.func,
-  percentFormat: PropTypes.func,
-  ohlcFormat: PropTypes.func,
-  origin: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-  fontFamily: PropTypes.string,
-  fontSize: PropTypes.number,
-  onClick: PropTypes.func,
-  displayValuesFor: PropTypes.func,
-  textFill: PropTypes.string,
-  labelFill: PropTypes.string,
-  displayTexts: PropTypes.object,
-  onChange: PropTypes.func,
-  visible: PropTypes.bool,
+	className: PropTypes.string,
+	accessor: PropTypes.func,
+	xDisplayFormat: PropTypes.func,
+	children: PropTypes.func,
+	volumeFormat: PropTypes.func,
+	percentFormat: PropTypes.func,
+	ohlcFormat: PropTypes.func,
+	origin: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
+	fontFamily: PropTypes.string,
+	fontSize: PropTypes.number,
+	onClick: PropTypes.func,
+	displayValuesFor: PropTypes.func,
+	textFill: PropTypes.string,
+	labelFill: PropTypes.string,
+	displayTexts: PropTypes.object,
+	onChange: PropTypes.func,
+	visible: PropTypes.bool,
 };
 
 const displayTextsDefault = {
-  d: "Date: ",
-  o: " O: ",
-  h: " H: ",
-  l: " L: ",
-  c: " C: ",
-  v: " Vol: ",
-  p: " P: ",
-  na: "n/a",
-  u: "Last update: "
+	d: "Date: ",
+	o: " O: ",
+	h: " H: ",
+	l: " L: ",
+	c: " C: ",
+	v: " Vol: ",
+	p: " P: ",
+	na: "n/a",
+	u: "Last update: "
 };
 
 OHLCTooltip.defaultProps = {
-  accessor: (d) => {
-    return {
-      date: d.date,
-      open: d.open,
-      high: d.high,
-      low: d.low,
-      close: d.close,
-      volume: d.volume,
-    };
-  },
-  xDisplayFormat: timeFormat("%Y-%m-%d"),
-  volumeFormat: format(".4s"),
-  percentFormat: format(".2%"),
-  ohlcFormat: format(".2f"),
-  displayValuesFor: displayValuesFor,
-  origin: [0, 0],
-  children: defaultDisplay,
-  displayTexts: displayTextsDefault,
+	accessor: (d) => {
+		return {
+			date: d.date,
+			open: d.open,
+			high: d.high,
+			low: d.low,
+			close: d.close,
+			volume: d.volume,
+		};
+	},
+	xDisplayFormat: timeFormat("%Y-%m-%d"),
+	volumeFormat: format(".4s"),
+	percentFormat: format(".2%"),
+	ohlcFormat: format(".2f"),
+	displayValuesFor: displayValuesFor,
+	origin: [0, 0],
+	children: defaultDisplay,
+	displayTexts: displayTextsDefault,
 };
 
 function defaultDisplay(props, moreProps, itemsToDisplay) {
-  /* eslint-disable */
+	/* eslint-disable */
   const {
     className,
     textFill,
@@ -157,180 +157,180 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
   } = props;
   /* eslint-enable */
 
-  const displayTextsRTL = {
-    d: ": Date",
-    o: ": O",
-    h: ": H",
-    l: ": L",
-    c: ": C",
-    v: ": Vol",
-    p: ": P",
-    na: "n/a",
-    u: ": Last update"
-  };
+	const displayTextsRTL = {
+		d: ": Date",
+		o: ": O",
+		h: ": H",
+		l: ": L",
+		c: ": C",
+		v: ": Vol",
+		p: ": P",
+		na: "n/a",
+		u: ": Last update"
+	};
 
-  const displayTexts = dir === "rtl" ? displayTextsRTL : props.displayTexts;
+	const displayTexts = dir === "rtl" ? displayTextsRTL : props.displayTexts;
 
-  const {
-    displayDate,
-    open,
-    high,
-    low,
-    close,
-    percentChange,
-    volume,
-    x,
-    y,
-  } = itemsToDisplay;
-  // if (!visible) return null
+	const {
+		displayDate,
+		open,
+		high,
+		low,
+		close,
+		percentChange,
+		volume,
+		x,
+		y,
+	} = itemsToDisplay;
+	// if (!visible) return null
 
-  const getRTL = () => {
-    return (
-      <g
-        className={`react-stockcharts-tooltip-hover ${className}`}
-        transform={`translate(${x + 60}, ${y + 8})`}
-        onClick={onClick}
-        fill="white"
-      >        
-        <image onClick={onUpdateServerTime} y="-10px" href="./assets/cycle_arrow.png" height="24" width="24"/>
-        <ToolTipText
-          x={0}
-          y={0}
-          fontFamily={fontFamily}
-          fontSize={fontSize || 14}
-        >
-          <tspan key="value_U" fill="white" dy="6px" x="30px">{serverTime || ""}</tspan>
-          <ToolTipTSpanLabel fill="white" key="label_U" x="150px">
-            {serverTime ? displayTexts.u : ""}
-          </ToolTipTSpanLabel>
-          <tspan key="value_U_divider" fill="#567E9C" dx="15px">|</tspan>
+	const getRTL = () => {
+		return (
+			<g
+				className={`react-stockcharts-tooltip-hover ${className}`}
+				transform={`translate(${x + 60}, ${y + 8})`}
+				onClick={onClick}
+				fill="white"
+			>
+				<image onClick={onUpdateServerTime} y="-10px" href="./assets/cycle_arrow.png" height="24" width="24"/>
+				<ToolTipText
+					x={0}
+					y={0}
+					fontFamily={fontFamily}
+					fontSize={fontSize || 14}
+				>
+					<tspan key="value_U" fill="white" dy="6px" x="30px">{serverTime || ""}</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_U" x="150px">
+						{serverTime ? displayTexts.u : ""}
+					</ToolTipTSpanLabel>
+					<tspan key="value_U_divider" fill="#567E9C" dx="15px">|</tspan>
 
-          <tspan key="value_P" fill="white" dx="30px">{percentChange}</tspan>
-          <ToolTipTSpanLabel fill="white" key="label_P" x="330px">
-            {displayTexts.p}
-          </ToolTipTSpanLabel>
-          <tspan key="value_P_divider" fill="#567E9C" dx="15px">|</tspan>
+					<tspan key="value_P" fill="white" dx="30px">{percentChange}</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_P" x="330px">
+						{displayTexts.p}
+					</ToolTipTSpanLabel>
+					<tspan key="value_P_divider" fill="#567E9C" dx="15px">|</tspan>
 
-          <tspan key="value_Vol" fill="white" dx="30px">{volume}</tspan>
-          <ToolTipTSpanLabel fill="white" key="label_Vol" x="450px">
-            {displayTexts.v}
-          </ToolTipTSpanLabel>
-          <tspan key="value_Vol_divider" fill="#567E9C" dx="15px">|</tspan>
+					<tspan key="value_Vol" fill="white" dx="30px">{volume}</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_Vol" x="450px">
+						{displayTexts.v}
+					</ToolTipTSpanLabel>
+					<tspan key="value_Vol_divider" fill="#567E9C" dx="15px">|</tspan>
 
-          <tspan key="value_C" fill="white" dx="30px">{close}</tspan>
-          <ToolTipTSpanLabel fill="white" key="label_C" x="570px">
-            {displayTexts.c}
-          </ToolTipTSpanLabel>
-          <tspan key="value_C_divider" fill="#567E9C" dx="15px">|</tspan>
+					<tspan key="value_C" fill="white" dx="30px">{close}</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_C" x="570px">
+						{displayTexts.c}
+					</ToolTipTSpanLabel>
+					<tspan key="value_C_divider" fill="#567E9C" dx="15px">|</tspan>
 
-          <tspan key="value_L" fill="white" dx="30px">{low}</tspan>
-          <ToolTipTSpanLabel fill="white" key="label_L" x="685px">
-            {displayTexts.l}
-          </ToolTipTSpanLabel>
-          <tspan key="value_L_divider" fill="#567E9C" dx="15px">|</tspan>
+					<tspan key="value_L" fill="white" dx="30px">{low}</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_L" x="685px">
+						{displayTexts.l}
+					</ToolTipTSpanLabel>
+					<tspan key="value_L_divider" fill="#567E9C" dx="15px">|</tspan>
 
-          <tspan key="value_H" fill="white" dx="30px">{high}</tspan>
-          <ToolTipTSpanLabel fill="white" key="label_H" x="800px">
-            {displayTexts.h}
-          </ToolTipTSpanLabel>
-          <tspan key="value_H_divider" fill="#567E9C" dx="15px">|</tspan>
+					<tspan key="value_H" fill="white" dx="30px">{high}</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_H" x="800px">
+						{displayTexts.h}
+					</ToolTipTSpanLabel>
+					<tspan key="value_H_divider" fill="#567E9C" dx="15px">|</tspan>
 
-          <tspan key="value_O" fill="white" dx="30px">{open}</tspan>
-          <ToolTipTSpanLabel fill="white" key="label_O" x="915px">
-            {displayTexts.o}
-          </ToolTipTSpanLabel>
-          <tspan key="value_O_divider" fill="#567E9C" dx="15px">|</tspan>
+					<tspan key="value_O" fill="white" dx="30px">{open}</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_O" x="915px">
+						{displayTexts.o}
+					</ToolTipTSpanLabel>
+					<tspan key="value_O_divider" fill="#567E9C" dx="15px">|</tspan>
 
-          <tspan key="value" fill="white" dx="30px">{displayDate}</tspan>
-          <ToolTipTSpanLabel fill="white" key="label" x="1060px">
-            {displayTexts.d}
-          </ToolTipTSpanLabel>
-          <tspan key="value_divider" fill="#567E9C" dx="15px">|</tspan> 
-        </ToolTipText>
-      </g>
-    )
-  }
+					<tspan key="value" fill="white" dx="30px">{displayDate}</tspan>
+					<ToolTipTSpanLabel fill="white" key="label" x="1060px">
+						{displayTexts.d}
+					</ToolTipTSpanLabel>
+					<tspan key="value_divider" fill="#567E9C" dx="15px">|</tspan>
+				</ToolTipText>
+			</g>
+		);
+	};
 
-  const getLTR = () => {
-    return (
-      <g
-        className={`react-stockcharts-tooltip-hover ${className}`}
-        transform={`translate(${x + 60}, ${y + 8})`}
-        onClick={onClick}
-        fill="white"
-      >        
-        <image onClick={onUpdateServerTime} x="853px" y="-10px" href="./assets/cycle_arrow.png" height="24" width="24"/>
-        <ToolTipText
-          x={0}
-          y={0}
-          fontFamily={fontFamily}
-          fontSize={fontSize || 14}
-        >
-          <ToolTipTSpanLabel fill="white" key="label" dy="6px">
-            {displayTexts.d}
-          </ToolTipTSpanLabel>
-          <tspan key="value" fill="white">{displayDate}</tspan>
-          <tspan key="value_divider" fill="#567E9C" x="123">|</tspan>
+	const getLTR = () => {
+		return (
+			<g
+				className={`react-stockcharts-tooltip-hover ${className}`}
+				transform={`translate(${x + 60}, ${y + 8})`}
+				onClick={onClick}
+				fill="white"
+			>
+				<image onClick={onUpdateServerTime} x="853px" y="-10px" href="./assets/cycle_arrow.png" height="24" width="24"/>
+				<ToolTipText
+					x={0}
+					y={0}
+					fontFamily={fontFamily}
+					fontSize={fontSize || 14}
+				>
+					<ToolTipTSpanLabel fill="white" key="label" dy="6px">
+						{displayTexts.d}
+					</ToolTipTSpanLabel>
+					<tspan key="value" fill="white">{displayDate}</tspan>
+					<tspan key="value_divider" fill="#567E9C" x="123">|</tspan>
 
-          <ToolTipTSpanLabel fill="white" key="label_O" dx="34px">
-            {displayTexts.o}
-          </ToolTipTSpanLabel>
-          <tspan key="value_O" fill="white">{open}</tspan>
-          <tspan key="value_O_divider" fill="#567E9C" x="236">|</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_O" dx="34px">
+						{displayTexts.o}
+					</ToolTipTSpanLabel>
+					<tspan key="value_O" fill="white">{open}</tspan>
+					<tspan key="value_O_divider" fill="#567E9C" x="236">|</tspan>
 
-          <ToolTipTSpanLabel fill="white" key="label_H" dx="34px">
-            {displayTexts.h}
-          </ToolTipTSpanLabel>
-          <tspan key="value_H" fill="white">{high}</tspan>
-          <tspan key="value_H_divider" fill="#567E9C" x="352px">|</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_H" dx="34px">
+						{displayTexts.h}
+					</ToolTipTSpanLabel>
+					<tspan key="value_H" fill="white">{high}</tspan>
+					<tspan key="value_H_divider" fill="#567E9C" x="352px">|</tspan>
 
-          <ToolTipTSpanLabel fill="white" key="label_L" dx="34px">
-            {displayTexts.l}
-          </ToolTipTSpanLabel>
-          <tspan key="value_L" fill="white">{low}</tspan>
-          <tspan key="value_L_divider" fill="#567E9C" x="464px">|</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_L" dx="34px">
+						{displayTexts.l}
+					</ToolTipTSpanLabel>
+					<tspan key="value_L" fill="white">{low}</tspan>
+					<tspan key="value_L_divider" fill="#567E9C" x="464px">|</tspan>
 
-          <ToolTipTSpanLabel fill="white" key="label_C" dx="34px">
-            {displayTexts.c}
-          </ToolTipTSpanLabel>
-          <tspan key="value_C" fill="white">{close}</tspan>
-          <tspan key="value_C_divider" fill="#567E9C" x="579px">|</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_C" dx="34px">
+						{displayTexts.c}
+					</ToolTipTSpanLabel>
+					<tspan key="value_C" fill="white">{close}</tspan>
+					<tspan key="value_C_divider" fill="#567E9C" x="579px">|</tspan>
 
-          <ToolTipTSpanLabel fill="white" key="label_Vol" dx="34px">
-            {displayTexts.v}
-          </ToolTipTSpanLabel>
-          <tspan key="value_Vol" fill="white">{volume}</tspan>
-          <tspan key="value_Vol_divider" fill="#567E9C" x="704px">|</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_Vol" dx="34px">
+						{displayTexts.v}
+					</ToolTipTSpanLabel>
+					<tspan key="value_Vol" fill="white">{volume}</tspan>
+					<tspan key="value_Vol_divider" fill="#567E9C" x="704px">|</tspan>
 
-          <ToolTipTSpanLabel fill="white" key="label_P" dx="34px">
-            {displayTexts.p}
-          </ToolTipTSpanLabel>
-          <tspan key="value_P" fill="white">{percentChange}</tspan>
-          <tspan key="value_P_divider" fill="#567E9C" x="818px">|</tspan>
+					<ToolTipTSpanLabel fill="white" key="label_P" dx="34px">
+						{displayTexts.p}
+					</ToolTipTSpanLabel>
+					<tspan key="value_P" fill="white">{percentChange}</tspan>
+					<tspan key="value_P_divider" fill="#567E9C" x="818px">|</tspan>
 
-          <ToolTipTSpanLabel fill="white" key="label_U" dx="60px">
-            {serverTime ? displayTexts.u : ""}
-          </ToolTipTSpanLabel>
-          <tspan key="value_U" fill="white">{serverTime || ""}</tspan>
-          <tspan key="value_U_divider" fill="#567E9C" dx="12px">{serverTime ? "|" : ""}</tspan>
-        </ToolTipText>       
-      </g>
-    )
-  }
+					<ToolTipTSpanLabel fill="white" key="label_U" dx="60px">
+						{serverTime ? displayTexts.u : ""}
+					</ToolTipTSpanLabel>
+					<tspan key="value_U" fill="white">{serverTime || ""}</tspan>
+					<tspan key="value_U_divider" fill="#567E9C" dx="12px">{serverTime ? "|" : ""}</tspan>
+				</ToolTipText>
+			</g>
+		);
+	};
 
-  const renderTooltip = () => dir === "rtl" ? getRTL() : getLTR();
-  return (
-    <g>
-      <rect 
-        id="myGroup" 
-        width="100%" 
-        height="20px" 
-        fill="black"
-        transform={`translate(${x}, ${y})`}
-      ></rect>
-      {renderTooltip()}
-    </g>
-  );
+	const renderTooltip = () => dir === "rtl" ? getRTL() : getLTR();
+	return (
+		<g>
+			<rect
+				id="myGroup"
+				width="100%"
+				height="20px"
+				fill="black"
+				transform={`translate(${x}, ${y})`}
+			></rect>
+			{renderTooltip()}
+		</g>
+	);
 }
 
 export default OHLCTooltip;

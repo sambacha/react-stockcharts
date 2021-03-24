@@ -74,41 +74,41 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
 		});
 	}
 	handleHover(hovering, channel) {
-        console.log(hovering, "handleHover");
-        console.log(channel.hovering, "handleHover");
-    }
+		console.log(hovering, "handleHover");
+		console.log(channel.hovering, "handleHover");
+	}
 	onKeyPress(e) {
 		const keyCode = e.which;
 		console.log(keyCode);
 		switch (keyCode) {
-		case 46: {
+			case 46: {
 			// DEL
-			const channels_1 = this.state.channels_1
-				.filter(each => !each.selected);
+				const channels_1 = this.state.channels_1
+					.filter(each => !each.selected);
 
-			this.canvasNode.cancelDrag();
-			this.setState({
-				channels_1,
-			});
-			break;
-		}
-		case 27: {
+				this.canvasNode.cancelDrag();
+				this.setState({
+					channels_1,
+				});
+				break;
+			}
+			case 27: {
 			// ESC
-			this.node.terminate();
-			this.canvasNode.cancelDrag();
-			this.setState({
-				enableInteractiveObject: false
-			});
-			break;
-		}
-		case 68: // D - Draw drawing object
-		case 69: {
+				this.node.terminate();
+				this.canvasNode.cancelDrag();
+				this.setState({
+					enableInteractiveObject: false
+				});
+				break;
+			}
+			case 68: // D - Draw drawing object
+			case 69: {
 			// E - Enable drawing object
-			this.setState({
-				enableInteractiveObject: true
-			});
-			break;
-		}
+				this.setState({
+					enableInteractiveObject: true
+				});
+				break;
+			}
 		}
 	}
 	render() {

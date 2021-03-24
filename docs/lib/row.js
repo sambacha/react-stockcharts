@@ -6,8 +6,8 @@ class Row extends React.Component {
 	render() {
 		const anchor = this.props.anchor || this.props.title;
 		const title = this.props.title
-				? <h4><a id={anchor} href={"#" + anchor}>{this.props.title}</a></h4>
-				: null;
+			? <h4><a id={anchor} href={"#" + anchor}>{this.props.title}</a></h4>
+			: null;
 
 		return (
 			<div className="row">

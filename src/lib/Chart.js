@@ -1,14 +1,9 @@
-
 import React from "react";
 import PropTypes from "prop-types";
 import { scaleLinear } from "d3-scale";
 
 import PureComponent from "./utils/PureComponent";
-import {
-	isNotDefined,
-	noop,
-	find,
-} from "./utils";
+import { isNotDefined, noop, find } from "./utils";
 
 class Chart extends PureComponent {
 	constructor(props, context) {
@@ -19,11 +14,9 @@ class Chart extends PureComponent {
 	UNSAFE_componentWillMount() {
 		const { id } = this.props;
 		const { subscribe } = this.context;
-		subscribe("chart_" + id,
-			{
-				listener: this.listener,
-			}
-		);
+		subscribe("chart_" + id, {
+			listener: this.listener,
+		});
 	}
 	componentWillUnmount() {
 		const { id } = this.props;
@@ -36,19 +29,18 @@ class Chart extends PureComponent {
 		if (type === "contextmenu") {
 			const { currentCharts } = moreProps;
 			if (currentCharts.indexOf(id) > -1) {
-
 				const interactives = this.props.interactives || [];
 				onContextMenu(moreProps, e, interactives, state);
 			}
 		}
 	}
 	yScale() {
-		const chartConfig = find(this.context.chartConfig, each => each.id === this.props.id);
+		const chartConfig = find(this.context.chartConfig, (each) => each.id === this.props.id);
 		return chartConfig.yScale.copy();
 	}
 	getChildContext() {
 		const { id: chartId } = this.props;
-		const chartConfig = find(this.context.chartConfig, each => each.id === chartId);
+		const chartConfig = find(this.context.chartConfig, (each) => each.id === chartId);
 
 		return {
 			chartId,
@@ -56,28 +48,24 @@ class Chart extends PureComponent {
 		};
 	}
 	render() {
-		const { origin } = find(this.context.chartConfig, each => each.id === this.props.id);
+		const { origin } = find(this.context.chartConfig, (each) => each.id === this.props.id);
 		const [x, y] = origin;
 
-		return <g transform={`translate(${ x }, ${ y })`}>{this.props.children}</g>;
+		return <g transform={`translate(${x}, ${y})`}>{this.props.children}</g>;
 	}
 }
 
 Chart.propTypes = {
 	height: PropTypes.number,
-	origin: PropTypes.oneOfType([
-		PropTypes.array,
-		PropTypes.func
-	]),
+	origin: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
 	id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-	yExtents: PropTypes.oneOfType([
-		PropTypes.array,
-		PropTypes.func
-	]),
+	yExtents: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
 	yExtentsCalculator: function(props, propName, componentName) {
 		if (isNotDefined(props.yExtents) && typeof props.yExtentsCalculator !== "function")
-			return new Error("yExtents or yExtentsCalculator must"
-				+ ` be present on ${componentName}. Validation failed.`);
+			return new Error(
+				"yExtents or yExtentsCalculator must" +
+          ` be present on ${componentName}. Validation failed.`,
+			);
 	},
 	onContextMenu: PropTypes.func,
 	yScale: PropTypes.func,
@@ -88,7 +76,7 @@ Chart.propTypes = {
 		PropTypes.shape({
 			top: PropTypes.number,
 			bottom: PropTypes.number,
-		})
+		}),
 	]),
 	children: PropTypes.node,
 };

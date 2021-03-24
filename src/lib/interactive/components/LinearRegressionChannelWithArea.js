@@ -31,7 +31,7 @@ class LinearRegressionChannelWithArea extends Component {
 			), false);
 
 			if (getHoverInteractive) {
-				getHoverInteractive(hovering)
+				getHoverInteractive(hovering);
 			}
 			return hovering;
 		}

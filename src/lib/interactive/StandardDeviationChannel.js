@@ -163,7 +163,7 @@ class StandardDeviationChannel extends Component {
 					? { ...hoverTextDefault, ...each.hoverText }
 					: hoverTextDefault;
 
-				return <EachLinearRegressionChannel 
+				return <EachLinearRegressionChannel
 					key={idx}
 					ref={this.saveNodeType(idx)}
 					index={idx}

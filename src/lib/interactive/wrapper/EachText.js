@@ -84,7 +84,7 @@ class EachText extends Component {
 		} = this.props;
 
 		if (moreProps.hovering) {
-			onDoubleClick({	position,
+			onDoubleClick({ position,
 				bgFill,
 				bgOpacity,
 				bgStroke,

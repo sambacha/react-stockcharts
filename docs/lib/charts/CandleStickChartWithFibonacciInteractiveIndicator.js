@@ -97,41 +97,41 @@ class CandleStickChartWithFibonacciInteractiveIndicator extends React.Component 
 		});
 	}
 	handleHover(hovering, retracement) {
-        console.log(hovering, "handleHover");
-        console.log(retracement.hovering, "handleHover");
-    }
+		console.log(hovering, "handleHover");
+		console.log(retracement.hovering, "handleHover");
+	}
 	onKeyPress(e) {
 		const keyCode = e.which;
 		switch (keyCode) {
-		case 46: { // DEL
-			const retracements_1 = this.state.retracements_1
-				.filter(each => !each.selected);
-			const retracements_3 = this.state.retracements_3
-				.filter(each => !each.selected);
+			case 46: { // DEL
+				const retracements_1 = this.state.retracements_1
+					.filter(each => !each.selected);
+				const retracements_3 = this.state.retracements_3
+					.filter(each => !each.selected);
 
-			this.canvasNode.cancelDrag();
-			this.setState({
-				retracements_1,
-				retracements_3,
-			});
-			break;
-		}
-		case 27: { // ESC
-			this.canvasNode.cancelDrag();
-			this.node_1.terminate();
-			this.node_3.terminate();
-			this.setState({
-				enableFib: false
-			});
-			break;
-		}
-		case 68:   // D - Draw Fib
-		case 69: { // E - Enable Fib
-			this.setState({
-				enableFib: true
-			});
-			break;
-		}
+				this.canvasNode.cancelDrag();
+				this.setState({
+					retracements_1,
+					retracements_3,
+				});
+				break;
+			}
+			case 27: { // ESC
+				this.canvasNode.cancelDrag();
+				this.node_1.terminate();
+				this.node_3.terminate();
+				this.setState({
+					enableFib: false
+				});
+				break;
+			}
+			case 68:   // D - Draw Fib
+			case 69: { // E - Enable Fib
+				this.setState({
+					enableFib: true
+				});
+				break;
+			}
 		}
 	}
 	render() {

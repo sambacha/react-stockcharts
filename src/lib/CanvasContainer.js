@@ -1,5 +1,3 @@
-
-
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
@@ -14,10 +12,8 @@ class CanvasContainer extends Component {
 		this.drawCanvas = {};
 	}
 	setDrawCanvas(node) {
-		if (isDefined(node))
-			this.drawCanvas[node.id] = node.getContext("2d");
-		else
-			this.drawCanvas = {};
+		if (isDefined(node)) this.drawCanvas[node.id] = node.getContext("2d");
+		else this.drawCanvas = {};
 	}
 	getCanvasContexts() {
 		if (isDefined(this.drawCanvas.axes)) {
@@ -32,12 +28,27 @@ class CanvasContainer extends Component {
 
 		return (
 			<div style={{ position: "absolute", zIndex: zIndex }}>
-				<canvas id="bg" ref={this.setDrawCanvas} width={width * ratio} height={height * ratio}
-					style={{ position: "absolute", width: width, height: height }} />
-				<canvas id="axes" ref={this.setDrawCanvas} width={width * ratio} height={height * ratio}
-					style={{ position: "absolute", width: width, height: height }} />
-				<canvas id="mouseCoord" ref={this.setDrawCanvas} width={width * ratio} height={height * ratio}
-					style={{ position: "absolute", width: width, height: height }} />
+				<canvas
+					id="bg"
+					ref={this.setDrawCanvas}
+					width={width * ratio}
+					height={height * ratio}
+					style={{ position: "absolute", width: width, height: height }}
+				/>
+				<canvas
+					id="axes"
+					ref={this.setDrawCanvas}
+					width={width * ratio}
+					height={height * ratio}
+					style={{ position: "absolute", width: width, height: height }}
+				/>
+				<canvas
+					id="mouseCoord"
+					ref={this.setDrawCanvas}
+					width={width * ratio}
+					height={height * ratio}
+					style={{ position: "absolute", width: width, height: height }}
+				/>
 			</div>
 		);
 	}

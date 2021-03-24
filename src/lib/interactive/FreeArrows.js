@@ -132,7 +132,7 @@ class FreeArrows extends Component {
 		const { isHover } = this.props;
 		isHover(hovering, arrow);
 	}
-	
+
 	render() {
 		const { appearance } = this.props;
 		const { enabled, snap, shouldDisableSnap, snapTo, type } = this.props;

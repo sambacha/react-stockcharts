@@ -1,12 +1,12 @@
-var fs = require("fs");
-var path = require("path");
+const fs = require("fs");
+const path = require("path");
 
-var root = path.join(__dirname, "..");
+const root = path.join(__dirname, "..");
 
-var origPackage = fs.readFileSync(path.join(root, "package.json")).toString();
+const origPackage = fs.readFileSync(path.join(root, "package.json")).toString();
 
 try {
-	var pkg = JSON.parse(origPackage);
+	const pkg = JSON.parse(origPackage);
 	delete pkg.devDependencies;
 	delete pkg.scripts;
 	delete pkg.browserify;

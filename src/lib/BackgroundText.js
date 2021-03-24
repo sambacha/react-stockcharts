@@ -8,7 +8,8 @@ class BackgroundText extends PureComponent {
 	componentDidMount() {
 		if (this.context.chartCanvasType !== "svg" && isDefined(this.context.getCanvasContexts)) {
 			const contexts = this.context.getCanvasContexts();
-			if (contexts) BackgroundText.drawOnCanvas(contexts.bg, this.props, this.context, this.props.children);
+			if (contexts)
+				BackgroundText.drawOnCanvas(contexts.bg, this.props, this.context, this.props.children);
 		}
 	}
 	componentDidUpdate() {
@@ -19,11 +20,19 @@ class BackgroundText extends PureComponent {
 
 		if (chartCanvasType !== "svg") return null;
 
-		const { x, y, fill, opacity, stroke, strokeOpacity, fontFamily, fontSize, textAnchor } = this.props;
+		const {
+			x,
+			y,
+			fill,
+			opacity,
+			stroke,
+			strokeOpacity,
+			fontFamily,
+			fontSize,
+			textAnchor,
+		} = this.props;
 		const props = { x, y, fill, opacity, stroke, strokeOpacity, fontFamily, fontSize, textAnchor };
-		return (
-			<text {...props}>this.props.children(interval)</text>
-		);
+		return <text {...props}>this.props.children(interval)</text>;
 	}
 }
 
@@ -40,7 +49,7 @@ BackgroundText.drawOnCanvas = (ctx, props, { interval }, getText) => {
 
 	ctx.strokeStyle = hexToRGBA(stroke, strokeOpacity);
 
-	ctx.font = `${ fontSize }px ${ fontFamily }`;
+	ctx.font = `${fontSize}px ${fontFamily}`;
 	ctx.fillStyle = hexToRGBA(fill, opacity);
 	ctx.textAlign = textAnchor === "middle" ? "center" : textAnchor;
 

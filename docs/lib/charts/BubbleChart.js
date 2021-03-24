@@ -34,17 +34,17 @@ class BubbleChart extends React.Component {
 		const radius = d => r(d.population);
 		return (
 			<ChartCanvas ratio={ratio} width={width} height={400}
-					margin={{ left: 70, right: 70, top: 20, bottom: 30 }} type={type}
-					seriesName="Wealth & Health of Nations"
-					data={data}
-					xAccessor={d => d.income}
-					xScale={scaleLog()}
-					padding={{ left: 20, right: 20 }}
-					>
+				margin={{ left: 70, right: 70, top: 20, bottom: 30 }} type={type}
+				seriesName="Wealth & Health of Nations"
+				data={data}
+				xAccessor={d => d.income}
+				xScale={scaleLog()}
+				padding={{ left: 20, right: 20 }}
+			>
 				<Chart id={1}
-						yExtents={d => d.lifeExpectancy}
-						yMousePointerRectWidth={45}
-						padding={{ top: 20, bottom: 20 }}>
+					yExtents={d => d.lifeExpectancy}
+					yMousePointerRectWidth={45}
+					padding={{ top: 20, bottom: 20 }}>
 					<XAxis axisAt="bottom" orient="bottom" ticks={2} tickFormat={format(",d")}/>
 					<YAxis axisAt="left" orient="left" />
 					<ScatterSeries yAccessor={d => d.lifeExpectancy} marker={CircleMarker}

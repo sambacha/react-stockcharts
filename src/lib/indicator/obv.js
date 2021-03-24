@@ -8,9 +8,9 @@ import baseIndicator from "./baseIndicator";
 
 const ALGORITHM_TYPE = "OBV";
 
-export default function () {
+export default function() {
 	const base = baseIndicator()
-		.type(ALGORITHM_TYPE)
+		.type(ALGORITHM_TYPE);
 
 	const underlyingAlgorithm = obv();
 
@@ -18,7 +18,7 @@ export default function () {
 		.algorithm(underlyingAlgorithm)
 		.merge((datum, indicator) => { datum.obv = indicator; });
 
-	const indicator = function (data, options = { merge: true }) {
+	const indicator = function(data, options = { merge: true }) {
 		if (options.merge) {
 			if (!base.accessor()) throw new Error(`Set an accessor to ${ALGORITHM_TYPE} before calculating`);
 			return mergedAlgorithm(data);
