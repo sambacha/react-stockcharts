@@ -65,8 +65,8 @@ class CandlestickChart extends React.Component {
             trends_1: [
                 {
                     appearance: {
-                        edgeFill: "#FF0000",
-                        edgeStroke: "#FF0000",
+                        edgeFill: "#FFFFFF",
+                        edgeStroke: "#000000",
                         edgeStrokeWidth: 1,
                         fontFamily:
                             "Helvetica Neue, Helvetica, Arial, sans-serif",
