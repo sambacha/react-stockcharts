@@ -1,5 +1,3 @@
-
-
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { nest as d3Nest } from "d3-collection";
@@ -30,8 +28,8 @@ class ScatterSeries extends Component {
 
 		return <g className={className}>
 			{points.map((point, idx) => {
-				const { marker: Marker } = point;
-				return <Marker key={idx} {...markerProps} point={point} />;
+                const { marker: Marker, stroke, fill, ...restPointData} = point;
+                return <Marker key={idx} {...markerProps} stroke={stroke} fill={fill} point={restPointData} />;
 			})}
 		</g>;
 	}
