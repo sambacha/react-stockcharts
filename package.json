@@ -1,13 +1,9 @@
 {
-  "name": "react-stockcharts",
-  "version": "0.8.9",
+  "name": "defi-charts-sdk",
+  "version": "0.8.66",
   "description": "Highly customizable stock charts with ReactJS and d3",
   "main": "src/index.js",
   "module": "src/index.js",
-  "author": {
-    "name": "Ragu Ramaswamy"
-  },
-  "homepage": "http://rrag.github.io/react-stockcharts/",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf -rf ./build",
@@ -21,7 +17,7 @@
     "babel:es:watch": "npm run babel:es -- -watch",
     "babel:cjs": "cross-env BABEL_ENV=cjs babel src --out-dir build --source-maps",
     "babel:es": "cross-env BABEL_ENV=es babel src --out-dir build/es --source-maps",
-    "release": "npm run clean && npm run babel:cjs && npm run babel:es && cp README.md build/ && node scripts/release.js",
+    "release": "npm run clean && npm run babel:cjs && npm run babel:es && cp README.md build/ && node scripts/release.js && node ./scripts/copy.js",
     "lint": "eslint --ext .js,.jsx src --fix",
     "upgrade:patch": "npm version patch",
     "preversion": "npm run lint",
@@ -84,7 +80,7 @@
     "json-loader": "^0.5.7",
     "modernizr": "^3.5.0",
     "ncp": "^2.0.0",
-    "node-sass": "^4.9.0",
+    "node-sass": "^5.0.0",
     "prismjs": "^1.8.4",
     "progress-bar-webpack-plugin": "^1.10.0",
     "react": "^16.1.1",
@@ -133,18 +129,5 @@
     "data-viz",
     "d3-finance-chart",
     "d3-stockchart"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rrag/react-stockcharts.git"
-  },
-  "bugs": {
-    "url": "https://github.com/rrag/react-stockcharts/issues"
-  },
-  "maintainers": [
-    {
-      "name": "rrag",
-      "email": "ragunath.ramaswamy@gmail.com"
-    }
-  ]
+    ]
 }

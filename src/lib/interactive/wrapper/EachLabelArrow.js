@@ -74,6 +74,7 @@ class EachLabelArrow extends Component {
 				hover: moreProps.hovering,
 			});
 		}
+		this.props.getHoverInteractive(moreProps.hovering)
 	}
 	handleDragComplete(...rest) {
 		this.setState({
@@ -233,6 +234,7 @@ EachLabelArrow.defaultProps = {
 	onDrag: noop,
 	onDragComplete: noop,
 	selected: false,
+	hovering: false,
 	width: 40,
 	type: "OPEN",
 	width: 40,

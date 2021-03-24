@@ -102,6 +102,10 @@ export default function financeDiscontinuousScale(
 			for (let i = 0; i < ticks.length - 1; i++) {
 				for (let j = i + 1; j < ticks.length; j++) {
 					if (ticks[j] - ticks[i] <= distance) {
+
+						if (!index[ticks[i] + d]) continue;
+						if (!index[ticks[j] + d]) continue;
+
 						ticksSet.remove(index[ticks[i] + d].level >= index[ticks[j] + d].level ? ticks[j] : ticks[i]);
 					}
 				}

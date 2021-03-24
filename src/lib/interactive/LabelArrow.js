@@ -27,6 +27,7 @@ class LabelArrow extends Component {
 		this.getSelectionState = isHoverForInteractiveType(
 			"labelArrowList"
 		).bind(this);
+		this.getHoverInteractive = this.getHoverInteractive.bind(this);
 
 		this.nodes = [];
 		this.state = {};
@@ -92,6 +93,12 @@ class LabelArrow extends Component {
 			this.props.onDragComplete(newLabels, moreProps);
 		}
 	}
+	getHoverInteractive(hovering, arrow) {
+		arrow.hovering = hovering;
+		const { isHover } = this.props;
+		isHover(hovering, arrow);
+	}
+
 	render() {
 		const { labelArrowList, defaultText, hoverText } = this.props;
 		const { override } = this.state;
@@ -129,6 +136,7 @@ class LabelArrow extends Component {
 							onDrag={this.handleDrag}
 							onDragComplete={this.handleDragComplete}
 							edgeInteractiveCursor="react-stockcharts-move-cursor"
+							getHoverInteractive={hovering => this.getHoverInteractive(hovering, each)}
 						/>
 					);
 				})}

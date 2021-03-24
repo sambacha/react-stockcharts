@@ -247,11 +247,11 @@ EquidistantChannel.defaultProps = {
 		strokeWidth: 1,
 		fill: "#8AAFE2",
 		fillOpacity: 0.7,
-		edgeStroke: "#000000",
-		edgeFill: "#FFFFFF",
-		edgeFill2: "#250B98",
+		edgeStroke: "#FF0000",
+		edgeFill: "#FF0000",
+		edgeFill2: "#FF0000",
 		edgeStrokeWidth: 1,
-		r: 5,
+		r: 6,
 	}
 };
 

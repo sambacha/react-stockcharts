@@ -72,16 +72,12 @@ class ChannelWithArea extends Component {
 			ctx.moveTo(x1, y1);
 			ctx.lineTo(x2, y2);
 			ctx.stroke();
+
 			if (isDefined(line2)) {
 				const {
 					y1: line2Y1,
 					y2: line2Y2
 				} = line2;
-
-				ctx.beginPath();
-				ctx.moveTo(x1, line2Y1);
-				ctx.lineTo(x2, line2Y2);
-				ctx.stroke();
 
 				ctx.fillStyle = hexToRGBA(fill, fillOpacity);
 				ctx.beginPath();
@@ -93,6 +89,16 @@ class ChannelWithArea extends Component {
 
 				ctx.closePath();
 				ctx.fill();
+				
+				ctx.beginPath();
+				ctx.moveTo(x1, line2Y1);
+				ctx.lineTo(x2, line2Y2);
+				ctx.stroke();
+
+				ctx.beginPath();
+				ctx.moveTo(x1, y1);
+				ctx.lineTo(x2, y2);
+				ctx.stroke();
 			}
 		}
 	}

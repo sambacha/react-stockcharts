@@ -268,8 +268,8 @@ TrendLine.defaultProps = {
 		strokeWidth: 1,
 		strokeDasharray: "Solid",
 		edgeStrokeWidth: 1,
-		edgeFill: "#FFFFFF",
-		edgeStroke: "#000000",
+		edgeFill: "#FF0000",
+		edgeStroke: "#FF0000",
 		r: 6,
 	}
 };
