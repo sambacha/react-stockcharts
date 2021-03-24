@@ -74,7 +74,7 @@ class EachLabelArrow extends Component {
 				hover: moreProps.hovering,
 			});
 		}
-		this.props.getHoverInteractive(moreProps.hovering)
+		this.props.getHoverInteractive(moreProps.hovering);
 	}
 	handleDragComplete(...rest) {
 		this.setState({

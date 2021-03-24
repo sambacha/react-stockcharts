@@ -40,7 +40,7 @@ class EachFibRetracement extends Component {
 				hover: moreProps.hovering
 			});
 		}
-		this.props.getHoverInteractive(moreProps.hovering)
+		this.props.getHoverInteractive(moreProps.hovering);
 	}
 	handleLineDragStart() {
 		const {

@@ -52,7 +52,7 @@ class InteractiveText extends Component {
 				...this.state.currentText,
 				position: newOverride
 			}
-		}
+		};
 
 		if (isDefined(override)) {
 			const { textList } = this.props;
@@ -70,7 +70,7 @@ class InteractiveText extends Component {
 							selected
 						};
 				});
-				
+
 			this.setState({
 				currentText: this.state.currentText
 			}, () => {
@@ -80,7 +80,7 @@ class InteractiveText extends Component {
 			this.state = {
 				...this.state,
 				override: null
-			}
+			};
 		}
 	}
 	handleDrawLine(xyValue) {
