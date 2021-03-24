@@ -1,13 +1,9 @@
 {
-  "name": "@techvice/react-stockcharts",
+  "name": "defi-charts-sdk",
   "version": "0.8.66",
   "description": "Highly customizable stock charts with ReactJS and d3",
   "main": "src/index.js",
   "module": "src/index.js",
-  "author": {
-    "name": "Ragu Ramaswamy"
-  },
-  "homepage": "http://rrag.github.io/react-stockcharts/",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf -rf ./build",
@@ -133,18 +129,5 @@
     "data-viz",
     "d3-finance-chart",
     "d3-stockchart"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rrag/react-stockcharts.git"
-  },
-  "bugs": {
-    "url": "https://github.com/rrag/react-stockcharts/issues"
-  },
-  "maintainers": [
-    {
-      "name": "rrag",
-      "email": "ragunath.ramaswamy@gmail.com"
-    }
-  ]
+    ]
 }
