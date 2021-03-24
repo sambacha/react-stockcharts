@@ -248,7 +248,7 @@ class CandlestickChart extends React.Component {
 						type="horizontal"
 						snap={false}
 						snapTo={d => [d.high, d.low]}
-						onStart={() => console.log("start")}
+						onStart={() => console.log("START")}
 						onComplete={this.onDrawCompleteChart1}
 						trends={this.state.trends_1}
 						isHover={this.handleHover}

@@ -223,10 +223,10 @@ EachLabelArrow.propTypes = {
 };
 
 EachLabelArrow.defaultProps = {
-	edgeStroke: "#FF0000",
-	edgeFill: "#FF0000",
-	edgeStrokeWidth: 1,
-	r: 6,
+	edgeStroke: "#000000",
+	edgeFill: "#FFFFFF",
+	edgeStrokeWidth: 2,
+	r: 5,
 	strokeWidth: 1,
 	strokeOpacity: 1,
 	strokeDasharray: "Solid",
