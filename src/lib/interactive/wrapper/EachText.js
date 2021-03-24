@@ -16,6 +16,7 @@ class EachText extends Component {
 
 		this.handleDragStart = this.handleDragStart.bind(this);
 		this.handleDrag = this.handleDrag.bind(this);
+		this.handleDouble = this.handleDouble.bind(this);
 
 		this.isHover = isHover.bind(this);
 		this.saveNodeType = saveNodeType.bind(this);
@@ -65,11 +66,51 @@ class EachText extends Component {
 		onDrag(index, xyValue);
 	}
 	handleHover(moreProps) {
+		const {
+			position,
+			bgFill,
+			bgOpacity,
+			bgStroke,
+			bgStrokeWidth,
+			textFill,
+			fontFamily,
+			fontSize,
+			fontWeight,
+			fontStyle,
+			text,
+			hoverText,
+			selected,
+			onDoubleClick,
+		} = this.props;
+
+		if (moreProps.hovering) {
+			onDoubleClick({	position,
+				bgFill,
+				bgOpacity,
+				bgStroke,
+				bgStrokeWidth,
+				textFill,
+				fontFamily,
+				fontSize,
+				fontWeight,
+				fontStyle,
+				text,
+				hoverText,
+				selected, moreProps });
+		} else {
+			onDoubleClick(null);
+		}
+
 		if (this.state.hover !== moreProps.hovering) {
 			this.setState({
 				hover: moreProps.hovering
 			});
 		}
+	}
+	handleDouble(moreProps, e) {
+		const { onDoubleClick, position } = this.props;
+
+		onDoubleClick(moreProps, e, position);
 	}
 	render() {
 		const {
@@ -87,6 +128,7 @@ class EachText extends Component {
 			hoverText,
 			selected,
 			onDragComplete,
+			onDoubleClick
 		} = this.props;
 		const { hover } = this.state;
 
@@ -102,6 +144,7 @@ class EachText extends Component {
 			...restHoverTextProps
 		} = hoverText;
 
+
 		return <g>
 			<InteractiveText
 				ref={this.saveNodeType("text")}
@@ -111,6 +154,7 @@ class EachText extends Component {
 
 				onDragStart={this.handleDragStart}
 				onDrag={this.handleDrag}
+				onDoubleClick={onDoubleClick}
 				onDragComplete={onDragComplete}
 				position={position}
 				bgFill={bgFill}
@@ -163,6 +207,7 @@ EachText.propTypes = {
 
 	onDrag: PropTypes.func.isRequired,
 	onDragComplete: PropTypes.func.isRequired,
+	onDoubleClick: PropTypes.func.isRequired,
 
 	hoverText: PropTypes.object.isRequired,
 };
@@ -170,6 +215,7 @@ EachText.propTypes = {
 EachText.defaultProps = {
 	onDrag: noop,
 	onDragComplete: noop,
+	onDoubleClick: noop,
 	bgOpacity: 1,
 	bgStrokeWidth: 1,
 	selected: false,

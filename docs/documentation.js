@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { csvParse, tsvParse } from  "d3-dsv";
+import { csvParse, tsvParse } from "d3-dsv";
 import { merge } from "d3-array";
 import { timeParse } from "d3-time-format";
 
@@ -80,6 +80,9 @@ const INDICATORS = {
 		require("./lib/page/CompareWithPage").default,
 		require("./lib/page/MACDIndicatorPage").default,
 		require("./lib/page/RSIIndicatorPage").default,
+		require("./lib/page/CCIIndicatorPage").default,
+		require("./lib/page/OBVIndicatorPage").default,
+		require("./lib/page/ADXIndicatorPage").default,
 		require("./lib/page/StochasticIndicatorPage").default,
 		require("./lib/page/ForceIndexIndicatorPage").default,
 		require("./lib/page/ElderRayIndicatorPage").default,
@@ -109,6 +112,11 @@ const INTERACTIVE = {
 		require("./lib/page/InteractiveYCoordinatePage").default,
 		require("./lib/page/ClickHandlerCallbackPage").default,
 		require("./lib/page/BrushSupportPage").default,
+		require("./lib/page/ArrowsPage").default,
+		require("./lib/page/LabelArrowsPage").default,
+		require("./lib/page/LinePrecentPage").default,
+		require("./lib/page/ShapePage").default,
+		require("./lib/page/HorizontalLinePage").default,
 	]
 };
 
@@ -135,7 +143,7 @@ function compressString(string) {
 }
 
 function parseData(parse) {
-	return function(d) {
+	return function (d) {
 		d.date = parse(d.date);
 		d.open = +d.open;
 		d.high = +d.high;
@@ -148,7 +156,7 @@ function parseData(parse) {
 }
 
 if (!window.Modernizr.fetch || !window.Modernizr.promises) {
-	require.ensure(["whatwg-fetch", "es6-promise"], function(require) {
+	require.ensure(["whatwg-fetch", "es6-promise"], function (require) {
 		require("es6-promise");
 		require("whatwg-fetch");
 		loadPage();
@@ -194,7 +202,7 @@ function loadPage() {
 		.then(response => response.json());
 
 	Promise.all([promiseMSFT, promiseMSFTfull, promiseIntraDayContinuous, promiseIntraDayDiscontinuous, promiseCompare, promiseBubbleData, promiseBarData, promisegroupedBarData])
-		.then(function(values) {
+		.then(function (values) {
 			const [MSFT, MSFTfull, intraDayContinuous, intraDayDiscontinuous, compareData, bubbleData, barData, groupedBarData] = values;
 			const horizontalBarData = barData.map(({ x, y }) => ({ x: y, y: x }));
 			const horizontalGroupedBarData = groupedBarData.map(d => {
@@ -257,15 +265,15 @@ function renderPage(data, dataFull, intraDayContinuous, intraDayDiscontinuous, c
 							)}
 						</Sidebar>
 						<Page someData={data}
-								intraDayContinuousData={intraDayContinuous}
-								intraDayDiscontinuousData={intraDayDiscontinuous}
-								lotsOfData={dataFull}
-								compareData={compareData}
-								bubbleData={bubbleData}
-								barData={barData}
-								groupedBarData={groupedBarData}
-								horizontalBarData={horizontalBarData}
-								horizontalGroupedBarData={horizontalGroupedBarData}/>
+							intraDayContinuousData={intraDayContinuous}
+							intraDayDiscontinuousData={intraDayDiscontinuous}
+							lotsOfData={dataFull}
+							compareData={compareData}
+							bubbleData={bubbleData}
+							barData={barData}
+							groupedBarData={groupedBarData}
+							horizontalBarData={horizontalBarData}
+							horizontalGroupedBarData={horizontalGroupedBarData} />
 					</MainContainer>
 				</div>
 			);

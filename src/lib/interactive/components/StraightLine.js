@@ -21,7 +21,7 @@ class StraightLine extends Component {
 		this.isHover = this.isHover.bind(this);
 	}
 	isHover(moreProps) {
-		const { tolerance, onHover } = this.props;
+		const { tolerance, onHover, getHoverInteractive } = this.props;
 
 		if (isDefined(onHover)) {
 			const { x1Value, x2Value, y1Value, y2Value, type } = this.props;
@@ -38,8 +38,9 @@ class StraightLine extends Component {
 				yScale,
 			});
 
-			// console.log("hovering ->", hovering);
-
+			if (getHoverInteractive) {
+				getHoverInteractive(hovering);
+			}
 			return hovering;
 		}
 		return false;
@@ -208,6 +209,10 @@ export function generateLine({
 			return getLineCoordinates({
 				type, start, end, xScale, yScale, m, b
 			});
+		case "horizontal":
+			return getHorizontalCoordinates({
+				start, end, xScale, yScale, m, b,
+			});
 	}
 }
 
@@ -280,6 +285,36 @@ function getLineCoordinates({
 	};
 }
 
+function getHorizontalCoordinates({
+	start,
+	end,
+	xScale,
+	yScale,
+	b,
+}) {
+	const [xBegin, xFinish] = xScale.domain();
+	const [yBegin, yFinish] = yScale.domain();
+  
+	const x1 = xBegin;
+	if (end[0] === start[0]) {
+	  return {
+		x1,
+		y1: yBegin,
+		x2: x1,
+		y2: end[1] > start[1] ? yFinish : yBegin,
+	  };
+	}
+  
+	const x2 = end[0] > start[0] ? xFinish : xBegin;
+  
+	return {
+	  x1,
+	  y1: b,
+	  x2,
+	  y2: b,  
+	}
+}
+
 StraightLine.propTypes = {
 	x1Value: PropTypes.any.isRequired,
 	x2Value: PropTypes.any.isRequired,
@@ -296,6 +331,7 @@ StraightLine.propTypes = {
 		"XLINE", // extends from -Infinity to +Infinity
 		"RAY", // extends to +/-Infinity in one direction
 		"LINE", // extends between the set bounds
+		"horizontal"
 	]).isRequired,
 
 	onEdge1Drag: PropTypes.func.isRequired,
